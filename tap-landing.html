@@ -1,0 +1,2178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trust African Properties — TAP</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --earth: #1a1208;
+    --bark: #2d1f0e;
+    --amber: #c8860a;
+    --gold: #e8a820;
+    --sand: #f2dfa8;
+    --dust: #8a6f45;
+    --cream: #faf4e8;
+    --white: #ffffff;
+    --green: #1e4035;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--earth);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: linear-gradient(to bottom, rgba(26,18,8,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--amber);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    position: relative;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sand);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  .nav-cta {
+    background: var(--amber);
+    color: var(--earth) !important;
+    padding: 0.5rem 1.4rem;
+    border-radius: 2px;
+    opacity: 1 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(200,134,10,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(30,64,53,0.25) 0%, transparent 50%);
+  }
+
+  .hero-lines {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 50%;
+    overflow: hidden;
+    opacity: 0.06;
+  }
+
+  .hero-lines svg { width: 100%; height: 100%; }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--amber);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5.5vw, 5.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--sand);
+    opacity: 0.75;
+    max-width: 480px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s forwards;
+  }
+
+  .btn-primary {
+    background: var(--amber);
+    color: var(--earth);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--sand);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    border: 1px solid rgba(232,168,32,0.35);
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  .hero-right {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    animation: fadeIn 1.2s 0.6s forwards;
+  }
+
+  .hero-card-stack {
+    position: relative;
+    width: 340px;
+    height: 420px;
+  }
+
+  .hcard {
+    position: absolute;
+    background: var(--bark);
+    border: 1px solid rgba(200,134,10,0.2);
+    border-radius: 6px;
+    padding: 1.8rem;
+    width: 280px;
+  }
+
+  .hcard:nth-child(1) { top: 0; left: 40px; transform: rotate(-4deg); opacity: 0.5; }
+  .hcard:nth-child(2) { top: 30px; left: 20px; transform: rotate(-1.5deg); opacity: 0.7; }
+  .hcard:nth-child(3) { top: 60px; left: 0; transform: rotate(0.5deg); z-index: 3; opacity: 1; }
+
+  .hcard-badge {
+    display: inline-block;
+    background: rgba(200,134,10,0.15);
+    color: var(--amber);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .hcard h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  .hcard p {
+    font-size: 0.82rem;
+    color: var(--dust);
+    line-height: 1.6;
+  }
+
+  .hcard-price {
+    margin-top: 1.2rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .hcard-price span {
+    font-size: 0.8rem;
+    color: var(--dust);
+    font-weight: 400;
+  }
+
+  /* ── STATS BAND ── */
+  .stats-band {
+    background: var(--bark);
+    border-top: 1px solid rgba(200,134,10,0.15);
+    border-bottom: 1px solid rgba(200,134,10,0.15);
+    padding: 3rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dust);
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  /* ── SECTION SHARED ── */
+  section {
+    padding: 7rem 4rem;
+  }
+
+  .section-eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--amber);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .section-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--sand);
+    opacity: 0.7;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* ── FEATURES ── */
+  #features { background: var(--earth); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    margin-top: 4rem;
+    background: rgba(200,134,10,0.12);
+    border: 1px solid rgba(200,134,10,0.12);
+  }
+
+  .feature-card {
+    background: var(--earth);
+    padding: 2.8rem 2.4rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .feature-card:hover { background: var(--bark); }
+  .feature-card:hover::before { transform: scaleX(1); }
+
+  .feature-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: rgba(200,134,10,0.12);
+    line-height: 1;
+    margin-bottom: 1.2rem;
+    transition: color 0.3s;
+  }
+
+  .feature-card:hover .feature-num { color: rgba(200,134,10,0.25); }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.02em;
+  }
+
+  .feature-desc {
+    font-size: 0.88rem;
+    color: var(--dust);
+    line-height: 1.65;
+  }
+
+  .feature-tag {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    background: rgba(200,134,10,0.1);
+    padding: 0.25rem 0.7rem;
+    border-radius: 2px;
+  }
+
+  /* ── AI STUDIO SHOWCASE ── */
+  #ai-studio {
+    background: var(--green);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #ai-studio::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200,134,10,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .ai-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .ai-demo {
+    background: rgba(26,18,8,0.6);
+    border: 1px solid rgba(200,134,10,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .ai-demo-bar {
+    background: rgba(200,134,10,0.1);
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(200,134,10,0.15);
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+
+  .ai-demo-body { padding: 1.8rem; }
+
+  .ai-prompt {
+    background: rgba(200,134,10,0.08);
+    border: 1px solid rgba(200,134,10,0.2);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    font-size: 0.85rem;
+    color: var(--sand);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .ai-prompt strong {
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-style: normal;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.4rem;
+  }
+
+  .ai-output-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .ai-output-item {
+    background: rgba(200,134,10,0.06);
+    border: 1px solid rgba(200,134,10,0.12);
+    border-radius: 4px;
+    padding: 1rem;
+  }
+
+  .ai-output-item .label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  .ai-output-item .value {
+    font-size: 0.88rem;
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  .ai-price-callout {
+    margin-top: 1.5rem;
+    background: var(--amber);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ai-price-callout span {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--earth);
+  }
+
+  .ai-price-callout strong {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--earth);
+  }
+
+  .ai-features-list {
+    list-style: none;
+    margin-top: 2rem;
+  }
+
+  .ai-features-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(200,134,10,0.1);
+    font-size: 0.9rem;
+    color: var(--sand);
+    opacity: 0.85;
+  }
+
+  .ai-features-list li::before {
+    content: '→';
+    color: var(--amber);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── TENDER PORTAL ── */
+  #tenders { background: var(--earth); }
+
+  .tender-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  .tender-list { display: flex; flex-direction: column; gap: 1rem; }
+
+  .tender-item {
+    background: var(--bark);
+    border: 1px solid rgba(200,134,10,0.15);
+    border-radius: 4px;
+    padding: 1.4rem 1.6rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+
+  .tender-item:hover {
+    border-color: rgba(200,134,10,0.5);
+    transform: translateX(4px);
+  }
+
+  .tender-country {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.3rem;
+  }
+
+  .tender-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.2rem;
+  }
+
+  .tender-meta {
+    font-size: 0.78rem;
+    color: var(--dust);
+  }
+
+  .tender-value {
+    text-align: right;
+  }
+
+  .tender-value .amount {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--gold);
+    display: block;
+  }
+
+  .tender-value .commission {
+    font-size: 0.72rem;
+    color: var(--dust);
+  }
+
+  .tender-info { }
+
+  .tender-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 1.2rem;
+    line-height: 1.3;
+  }
+
+  .tender-info p {
+    font-size: 0.9rem;
+    color: var(--sand);
+    opacity: 0.7;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .tender-stat-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .t-stat strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+  }
+
+  .t-stat span {
+    font-size: 0.75rem;
+    color: var(--dust);
+    font-family: 'Syne', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── CTA SECTION ── */
+  #cta {
+    background: var(--bark);
+    border-top: 1px solid rgba(200,134,10,0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #cta::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(200,134,10,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .cta-title em { font-style: italic; color: var(--gold); }
+
+  .cta-sub {
+    font-size: 1rem;
+    color: var(--sand);
+    opacity: 0.7;
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  /* ── TABS ── */
+  .cta-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    position: relative;
+    border: 1px solid rgba(200,134,10,0.25);
+    border-radius: 2px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .tab-btn {
+    background: transparent;
+    border: none;
+    padding: 0.75rem 1.8rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dust);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-right: 1px solid rgba(200,134,10,0.25);
+  }
+
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active { background: var(--amber); color: var(--earth); }
+  .tab-btn:not(.active):hover { color: var(--gold); }
+
+  .tab-pane { display: none; position: relative; }
+  .tab-pane.active { display: block; }
+
+  /* ── FORMS ── */
+  .form-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(26,18,8,0.6);
+    border: 1px solid rgba(200,134,10,0.25);
+    border-radius: 2px;
+    padding: 0.9rem 1.2rem;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--dust); opacity: 0.6; }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--amber);
+  }
+
+  .form-group select option { background: var(--bark); color: var(--cream); }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .form-success .check {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-success h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-success p { color: var(--dust); font-size: 0.9rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--earth);
+    border-top: 1px solid rgba(200,134,10,0.12);
+    padding: 4rem 4rem 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.85rem;
+    color: var(--dust);
+    line-height: 1.7;
+    margin-top: 1rem;
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col ul li {
+    margin-bottom: 0.7rem;
+  }
+
+  .footer-col ul li a {
+    font-size: 0.85rem;
+    color: var(--dust);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul li a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(200,134,10,0.1);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-size: 0.78rem;
+    color: var(--dust);
+    opacity: 0.5;
+  }
+
+  .footer-flag {
+    font-size: 1.2rem;
+    letter-spacing: 0.3rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MATERIALS MARKETPLACE ── */
+  #materials {
+    background: var(--bark);
+    position: relative;
+    overflow: hidden;
+  }
+  #materials::before {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200,134,10,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .materials-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 4rem;
+  }
+  .ticker-wrap {
+    overflow: hidden;
+    border: 1px solid rgba(200,134,10,0.2);
+    border-radius: 4px;
+    background: var(--earth);
+    margin-bottom: 1.5rem;
+  }
+  .ticker-bar {
+    background: rgba(200,134,10,0.12);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-bottom: 1px solid rgba(200,134,10,0.15);
+  }
+  .ticker-dot {
+    width: 7px; height: 7px;
+    background: #28c840;
+    border-radius: 50%;
+    animation: pulse-green 1.5s infinite;
+  }
+  @keyframes pulse-green {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .ticker-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #28c840;
+  }
+  .ticker-time {
+    margin-left: auto;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    color: var(--dust);
+    letter-spacing: 0.05em;
+  }
+  .price-table { width: 100%; border-collapse: collapse; }
+  .price-table thead tr { border-bottom: 1px solid rgba(200,134,10,0.15); }
+  .price-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dust);
+    padding: 0.7rem 1rem;
+    text-align: left;
+  }
+  .price-table td {
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+    color: var(--cream);
+    border-bottom: 1px solid rgba(200,134,10,0.07);
+  }
+  .price-table tr:last-child td { border-bottom: none; }
+  .price-table tr:hover td { background: rgba(200,134,10,0.04); }
+  .mat-name { display: flex; align-items: center; gap: 0.6rem; }
+  .mat-icon { font-size: 1.1rem; }
+  .price-val { font-weight: 600; color: var(--gold); font-family: 'Syne', sans-serif; }
+  .price-change {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+  .price-up { background: rgba(40,200,64,0.12); color: #28c840; }
+  .price-down { background: rgba(255,80,80,0.12); color: #ff5050; }
+  .price-same { background: rgba(200,134,10,0.12); color: var(--amber); }
+  .shop-badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    background: rgba(200,134,10,0.1);
+    color: var(--amber);
+  }
+  .cat-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+  }
+  .cat-btn {
+    background: transparent;
+    border: 1px solid rgba(200,134,10,0.2);
+    border-radius: 2px;
+    padding: 0.3rem 0.9rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dust);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cat-btn.active, .cat-btn:hover { background: var(--amber); border-color: var(--amber); color: var(--earth); }
+  .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+  .shop-card {
+    background: var(--earth);
+    border: 1px solid rgba(200,134,10,0.15);
+    border-radius: 4px;
+    padding: 1.2rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .shop-card:hover { border-color: rgba(200,134,10,0.4); transform: translateY(-2px); }
+  .shop-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+  .shop-name { font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--cream); }
+  .shop-rating { font-size: 0.75rem; color: var(--gold); }
+  .shop-location { font-size: 0.75rem; color: var(--dust); margin-bottom: 0.7rem; }
+  .shop-stats { display: flex; gap: 1rem; }
+  .shop-stat { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dust); }
+  .shop-stat strong { display: block; font-size: 0.88rem; color: var(--amber); margin-bottom: 0.1rem; }
+  .shop-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #28c840;
+    background: rgba(40,200,64,0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    margin-top: 0.8rem;
+  }
+  .materials-cta-box {
+    background: var(--earth);
+    border: 1px solid rgba(200,134,10,0.2);
+    border-radius: 6px;
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .materials-cta-box h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--cream); margin-bottom: 0.5rem; }
+  .materials-cta-box p { font-size: 0.85rem; color: var(--dust); margin-bottom: 1.2rem; line-height: 1.6; }
+  .partner-count { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; }
+  .p-count strong { display: block; font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); line-height: 1; }
+  .p-count span { font-family: 'Syne', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dust); }
+
+  /* ── MUNICIPAL BLOCKCHAIN ── */
+  #municipal {
+    background: #0d1f1a;
+    position: relative;
+    overflow: hidden;
+  }
+  #municipal::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(40,200,100,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  #municipal::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(200,134,10,0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .municipal-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 4rem;
+  }
+  .blockchain-visual {
+    position: relative;
+  }
+  .chain-block {
+    background: rgba(13,31,26,0.8);
+    border: 1px solid rgba(40,200,100,0.2);
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 0;
+    position: relative;
+  }
+  .chain-block.active-block {
+    border-color: rgba(40,200,100,0.6);
+    background: rgba(40,200,100,0.06);
+  }
+  .chain-connector {
+    width: 2px;
+    height: 24px;
+    background: linear-gradient(to bottom, rgba(40,200,100,0.5), rgba(40,200,100,0.1));
+    margin: 0 auto;
+  }
+  .block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .block-id {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #28c864;
+  }
+  .block-time {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    color: var(--dust);
+  }
+  .block-hash {
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: rgba(40,200,100,0.5);
+    margin-bottom: 0.5rem;
+    word-break: break-all;
+  }
+  .block-content {
+    font-size: 0.82rem;
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .block-meta {
+    font-size: 0.72rem;
+    color: var(--dust);
+    margin-top: 0.3rem;
+  }
+  .block-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.6rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #28c864;
+    background: rgba(40,200,100,0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+  .why-africa-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .why-card {
+    background: rgba(40,200,100,0.05);
+    border: 1px solid rgba(40,200,100,0.12);
+    border-radius: 4px;
+    padding: 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .why-card:hover { border-color: rgba(40,200,100,0.3); }
+  .why-card-icon { font-size: 1.4rem; margin-bottom: 0.6rem; display: block; }
+  .why-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #28c864;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .why-card-desc {
+    font-size: 0.8rem;
+    color: var(--sand);
+    opacity: 0.75;
+    line-height: 1.55;
+  }
+  .blockchain-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(40,200,100,0.1);
+    border: 1px solid rgba(40,200,100,0.25);
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #28c864;
+    margin-bottom: 1.5rem;
+  }
+  .blockchain-tag::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: #28c864;
+    border-radius: 50%;
+    animation: pulse-green 1.5s infinite;
+  }
+  .municipal-stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(40,200,100,0.04);
+    border: 1px solid rgba(40,200,100,0.1);
+    border-radius: 4px;
+  }
+  .m-stat strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #28c864;
+    line-height: 1;
+  }
+  .m-stat span {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dust);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+    .hero-right { display: none; }
+    .stats-band { grid-template-columns: 2fr 2fr; padding: 2rem 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .ai-layout, .tender-layout, .materials-layout, .municipal-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .shop-grid, .why-africa-grid { grid-template-columns: 1fr; }
+    .municipal-stats { grid-template-columns: 1fr 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon"></div>
+    <span class="logo-text">TAP</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Platform</a></li>
+    <li><a href="#ai-studio">AI Studio</a></li>
+    <li><a href="#tenders">Tenders</a></li>
+    <li><a href="#materials">Materials</a></li>
+    <li><a href="#municipal">Blockchain Titles</a></li>
+    <li><a href="#cta" class="nav-cta">Join Waitlist</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines">
+    <svg viewBox="0 0 500 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="100" x2="500" y2="300" stroke="#c8860a" stroke-width="0.5"/>
+      <line x1="0" y1="200" x2="500" y2="400" stroke="#c8860a" stroke-width="0.5"/>
+      <line x1="0" y1="300" x2="500" y2="500" stroke="#c8860a" stroke-width="0.5"/>
+      <line x1="0" y1="400" x2="500" y2="600" stroke="#c8860a" stroke-width="0.5"/>
+      <line x1="100" y1="0" x2="300" y2="800" stroke="#c8860a" stroke-width="0.3"/>
+      <line x1="250" y1="0" x2="450" y2="800" stroke="#c8860a" stroke-width="0.3"/>
+      <circle cx="250" cy="250" r="180" stroke="#c8860a" stroke-width="0.5" fill="none"/>
+      <circle cx="250" cy="250" r="120" stroke="#c8860a" stroke-width="0.3" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Africa's Real Estate Revolution</div>
+    <h1 class="hero-title">
+      Build. Own. <em>Invest</em><br>
+      Across All of Africa.
+    </h1>
+    <p class="hero-subtitle">
+      Trust African Properties is a first-of-its-kind digital platform uniting property listings, AI architectural design, and transparent government tenders — built for 54 nations, 1.5 billion people.
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">Join the Waitlist</a>
+      <a href="#features" class="btn-secondary">Explore Platform</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-card-stack">
+      <div class="hcard">
+        <div class="hcard-badge">AI Studio</div>
+        <h3>3-Bed Modern Home</h3>
+        <p>Harare, Zimbabwe</p>
+        <div class="hcard-price">$30 <span>/ design</span></div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-badge">Government Tender</div>
+        <h3>School Construction</h3>
+        <p>Lusaka, Zambia</p>
+        <div class="hcard-price">$4.2M <span>project value</span></div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-badge">For Sale</div>
+        <h3>Renovated Villa</h3>
+        <p>Cape Town, South Africa</p>
+        <div class="hcard-price">$185,000 <span>clean title</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stat-item reveal">
+    <span class="stat-num">$223B</span>
+    <span class="stat-label">African Real Estate Market</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num">54</span>
+    <span class="stat-label">Nations in Scope</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num">$95B</span>
+    <span class="stat-label">Diaspora Remittances / Year</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num">7</span>
+    <span class="stat-label">Integrated Revenue Streams</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-eyebrow">The Platform</div>
+  <h2 class="section-title">One Ecosystem.<br><em>Seven Streams.</em></h2>
+  <p class="section-sub">Every feature feeds the next. Properties generate designs. Designs generate construction. Construction generates materials. Materials generate trust.</p>
+
+  <div class="features-grid" style="margin-top: 4rem;">
+    <div class="feature-card reveal">
+      <div class="feature-num">01</div>
+      <div class="feature-icon">🏘️</div>
+      <div class="feature-title">Buy & Sell Properties</div>
+      <div class="feature-desc">Most sellers avoid agents because commissions are too high — so they try to sell alone and fall victim to fraud or low prices. TAP flips the model entirely. We evaluate your property, finance renovations through vetted contractors, relist it at premium value, and pay you a bonus on top of the agreed price. You do nothing. We create value — and share it. Every transaction is backed by a verified digital title deed, so buyers get security and sellers get maximum return.</div>
+      <span class="feature-tag">Commission to Sellers</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">02</div>
+      <div class="feature-icon">🔑</div>
+      <div class="feature-title">Leasing & Estate Management</div>
+      <div class="feature-desc">Managing tenants, chasing rent, arranging repairs — most property owners give up on rental income because the stress outweighs the reward. TAP takes over completely. We sign a minimum 5-year management agreement, renovate your property to attract quality tenants, handle all screening and collections, and pay you a guaranteed fixed income every month — whether the property is occupied or not. Passive income should actually be passive. We do the work; you collect the returns.</div>
+      <span class="feature-tag">Guaranteed Income</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">03</div>
+      <div class="feature-icon">🏗️</div>
+      <div class="feature-title">Construction Tenders</div>
+      <div class="feature-desc">Millions of diaspora Africans send money home to build — and millions lose it to fraud, mismanagement, or relatives who build the wrong house entirely. TAP bridges that gap. We collect your requirements, invite competitive bids from vetted contractors using live material prices (so no padding), hold your funds in escrow, and provide you with real-time construction updates no matter where in the world you are. Distance should not mean distrust. We are your eyes, hands, and protection on the ground.</div>
+      <span class="feature-tag">10% Commission</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">04</div>
+      <div class="feature-icon">🤝</div>
+      <div class="feature-title">Franchising Across Africa</div>
+      <div class="feature-desc">Building TAP operations in all 54 African nations from a single headquarters would take decades and billions. So we don't. Instead, we empower local entrepreneurs across the continent to operate TAP in their own countries — using our technology platform, brand, training, and support systems. Franchisees pay a one-time setup fee and a 10% royalty on revenue. In return they get exclusive country rights, a proven business model, and a platform no local competitor can match. Africa's diversity is our scaling advantage.</div>
+      <span class="feature-tag">Pan-African Scaling</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">05</div>
+      <div class="feature-icon">🏛️</div>
+      <div class="feature-title">Government Tenders</div>
+      <div class="feature-desc">Africa faces a $130 billion annual infrastructure gap — not because the projects don't exist, but because procurement is opaque, corrupt, and inaccessible to international contractors who could fund and build them. TAP publishes government tenders openly, enables encrypted bid submissions, ensures transparent evaluation, and holds all contract funds in milestone-protected escrow. No closed doors. No briefcase payments. Just fair competition, verified delivery, and infrastructure that actually gets built. We earn a 5% commission on every contract facilitated.</div>
+      <span class="feature-tag">5% Commission</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">06</div>
+      <div class="feature-icon">🤖</div>
+      <div class="feature-title">AI Construction Studio</div>
+      <div class="feature-desc">Professional architectural design costs $5,000–$50,000 in Africa — a year's salary or more for the average citizen. The result: millions of Africans build without plans, leading to unsafe structures, wasted money, and buildings that don't match what they envisioned. TAP's AI Studio changes this permanently. Type a description of your dream home, and within 30 seconds receive complete floor plans, photorealistic 3D renderings, a full material list, cost estimate, and building code compliance check — all for as little as $30. Architecture is no longer a luxury. It is a right.</div>
+      <span class="feature-tag">From $30/design</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">07</div>
+      <div class="feature-icon">⛓️</div>
+      <div class="feature-title">Municipal Plugin + Blockchain Titles</div>
+      <div class="feature-desc">Fake title deeds are the single biggest source of real estate fraud across Africa — costing investors billions every year. Title transfers take 3–12 months, require bribes, and often result in the same land being sold to multiple buyers simultaneously. TAP's Municipal Plugin integrates directly with government land registries to verify ownership in real time. Upon completion of any sale, a tamper-proof digital title deed is generated instantly on TAP's dedicated blockchain — an immutable, decentralised record that no corrupt official can alter, no fraudster can forge, and no buyer can dispute. This is not a feature. It is the foundation of trust.</div>
+      <span class="feature-tag">Blockchain-Powered</span>
+    </div>
+  </div>
+</section>
+
+<!-- AI STUDIO -->
+<section id="ai-studio">
+  <div class="ai-layout">
+    <div class="reveal">
+      <div class="section-eyebrow">AI Construction Studio</div>
+      <h2 class="section-title">Professional Design<br>for <em>$30.</em></h2>
+      <p class="section-sub" style="margin-bottom:0;">Architecture was once a luxury. TAP's AI makes it a right. Describe your dream home — get floor plans, 3D renders, cost estimates, and building code compliance in 30 seconds.</p>
+      <ul class="ai-features-list">
+        <li>Text-to-floor-plan in under 30 seconds</li>
+        <li>Photorealistic 3D renderings & virtual walkthroughs</li>
+        <li>Real-time cost estimation with local material prices</li>
+        <li>Automatic building code compliance checks per country</li>
+        <li>Upload a sketch — get professional architectural plans</li>
+        <li>Designs feed directly into construction tender bidding</li>
+      </ul>
+    </div>
+    <div class="ai-demo reveal">
+      <div class="ai-demo-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span style="font-family:'Syne',sans-serif;font-size:0.7rem;color:var(--dust);margin-left:0.5rem;letter-spacing:0.06em;">TAP AI Studio</span>
+      </div>
+      <div class="ai-demo-body">
+        <div class="ai-prompt">
+          <strong>Your Prompt</strong>
+          "3-bedroom modern home with solar panels and a covered veranda, suitable for Harare climate, budget $55,000 USD"
+        </div>
+        <div class="ai-output-grid">
+          <div class="ai-output-item">
+            <span class="label">Floor Plans</span>
+            <span class="value">✓ Generated (3 variants)</span>
+          </div>
+          <div class="ai-output-item">
+            <span class="label">3D Render</span>
+            <span class="value">✓ Photorealistic</span>
+          </div>
+          <div class="ai-output-item">
+            <span class="label">Material List</span>
+            <span class="value">✓ 48 items costed</span>
+          </div>
+          <div class="ai-output-item">
+            <span class="label">Code Compliance</span>
+            <span class="value">✓ Zimbabwe Standards</span>
+          </div>
+          <div class="ai-output-item">
+            <span class="label">Est. Cost</span>
+            <span class="value">$52,400 USD</span>
+          </div>
+          <div class="ai-output-item">
+            <span class="label">Build Timeline</span>
+            <span class="value">7–9 months</span>
+          </div>
+        </div>
+        <div class="ai-price-callout">
+          <span>Total Design Cost</span>
+          <strong>$30</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TENDERS -->
+<section id="tenders">
+  <div class="section-eyebrow">Tender Portal</div>
+  <h2 class="section-title">Infrastructure Built<br><em>Transparently.</em></h2>
+  <p class="section-sub">$130 billion annual infrastructure gap. Government projects published openly. Every bid visible. Every payment milestone-protected. Corruption has nowhere to hide.</p>
+
+  <div class="tender-layout">
+    <div class="tender-list reveal">
+      <div class="tender-item">
+        <div>
+          <div class="tender-country">🇿🇲 Zambia</div>
+          <div class="tender-title">Primary School Complex — Lusaka</div>
+          <div class="tender-meta">12 classrooms · Closes in 18 days</div>
+        </div>
+        <div class="tender-value">
+          <span class="amount">$4.2M</span>
+          <span class="commission">$210K TAP fee</span>
+        </div>
+      </div>
+      <div class="tender-item">
+        <div>
+          <div class="tender-country">🇿🇼 Zimbabwe</div>
+          <div class="tender-title">Rural Health Clinic Network</div>
+          <div class="tender-meta">8 clinics · Closes in 25 days</div>
+        </div>
+        <div class="tender-value">
+          <span class="amount">$12.8M</span>
+          <span class="commission">$640K TAP fee</span>
+        </div>
+      </div>
+      <div class="tender-item">
+        <div>
+          <div class="tender-country">🇰🇪 Kenya</div>
+          <div class="tender-title">County Road Upgrade — Mombasa</div>
+          <div class="tender-meta">42km · Closes in 30 days</div>
+        </div>
+        <div class="tender-value">
+          <span class="amount">$45M</span>
+          <span class="commission">$2.25M TAP fee</span>
+        </div>
+      </div>
+      <div class="tender-item">
+        <div>
+          <div class="tender-country">🇬🇭 Ghana</div>
+          <div class="tender-title">Affordable Housing Estate</div>
+          <div class="tender-meta">200 units · Closes in 45 days</div>
+        </div>
+        <div class="tender-value">
+          <span class="amount">$28M</span>
+          <span class="commission">$1.4M TAP fee</span>
+        </div>
+      </div>
+    </div>
+    <div class="tender-info reveal">
+      <h3>Bid on Government Projects Across 54 African Nations</h3>
+      <p>TAP's tender portal is Africa's first fully transparent infrastructure procurement system. No closed doors, no bribe facilitation payments. Just fair competition and milestone-protected contracts.</p>
+      <div class="tender-stat-row">
+        <div class="t-stat">
+          <strong>$130B</strong>
+          <span>Annual Gap</span>
+        </div>
+        <div class="t-stat">
+          <strong>5%</strong>
+          <span>TAP Commission</span>
+        </div>
+        <div class="t-stat">
+          <strong>54</strong>
+          <span>Countries</span>
+        </div>
+      </div>
+      <a href="#cta" class="btn-primary">Register as Contractor</a>
+    </div>
+  </div>
+</section>
+
+<!-- MATERIALS MARKETPLACE -->
+<section id="materials">
+  <div class="section-eyebrow">Materials Marketplace</div>
+  <h2 class="section-title">Real-Time Prices.<br><em>Zero Inflation.</em></h2>
+  <p class="section-sub">Partner shops update their prices live. Contractors must bid using actual market rates. No padding. No corruption. Just fair, transparent pricing across the continent.</p>
+
+  <div class="materials-layout">
+
+    <!-- LEFT: live price table -->
+    <div class="reveal">
+      <div class="ticker-wrap">
+        <div class="ticker-bar">
+          <div class="ticker-dot"></div>
+          <span class="ticker-label">Live Pricing Feed</span>
+          <span class="ticker-time" id="live-clock">--:--:--</span>
+        </div>
+        <div class="cat-filter">
+          <button class="cat-btn active" onclick="filterCat('all', this)">All</button>
+          <button class="cat-btn" onclick="filterCat('concrete', this)">Concrete</button>
+          <button class="cat-btn" onclick="filterCat('steel', this)">Steel</button>
+          <button class="cat-btn" onclick="filterCat('timber', this)">Timber</button>
+          <button class="cat-btn" onclick="filterCat('roofing', this)">Roofing</button>
+          <button class="cat-btn" onclick="filterCat('finishing', this)">Finishing</button>
+        </div>
+        <table class="price-table" id="price-table">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Unit Price (USD)</th>
+              <th>24h Change</th>
+              <th>Supplier</th>
+            </tr>
+          </thead>
+          <tbody id="price-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="materials-cta-box">
+        <div class="partner-count">
+          <div class="p-count"><strong id="shop-count">0</strong><span>Partner Shops</span></div>
+          <div class="p-count"><strong id="product-count">0</strong><span>Products Listed</span></div>
+          <div class="p-count"><strong id="country-count">0</strong><span>Countries</span></div>
+        </div>
+        <h3>List Your Shop on TAP</h3>
+        <p>Reach millions of builders, contractors, and diaspora investors across Africa. Free to join during our launch phase.</p>
+        <a href="#cta" class="btn-primary">Register as Partner Shop →</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: shop cards + info -->
+    <div class="reveal">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--cream);margin-bottom:1rem;line-height:1.3;">
+        Compare Prices Across <em style="color:var(--gold);font-style:italic;">Every Shop</em> in Your City
+      </h3>
+      <p style="font-size:0.9rem;color:var(--sand);opacity:0.7;line-height:1.7;margin-bottom:1.5rem;">
+        Instead of driving to 20 shops, TAP shows you real-time stock and pricing from every verified partner in your area. Bulk orders get better rates. Contractors can't inflate what everyone can see.
+      </p>
+
+      <div class="shop-grid" id="shop-grid"></div>
+
+      <div style="margin-top:2rem;background:rgba(200,134,10,0.06);border:1px solid rgba(200,134,10,0.15);border-radius:4px;padding:1.5rem;">
+        <div class="section-eyebrow" style="margin-bottom:0.8rem;">How It Works</div>
+        <div style="display:flex;flex-direction:column;gap:0.8rem;">
+          <div style="display:flex;gap:1rem;align-items:flex-start;font-size:0.88rem;color:var(--sand);opacity:0.85;">
+            <span style="color:var(--amber);font-weight:700;flex-shrink:0;">01</span>
+            <span>Partner shops join TAP and update their prices in real time via our simple dashboard.</span>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;font-size:0.88rem;color:var(--sand);opacity:0.85;">
+            <span style="color:var(--amber);font-weight:700;flex-shrink:0;">02</span>
+            <span>When contractors bid on construction projects, they must use the live market prices — no padding allowed.</span>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;font-size:0.88rem;color:var(--sand);opacity:0.85;">
+            <span style="color:var(--amber);font-weight:700;flex-shrink:0;">03</span>
+            <span>Buyers can purchase directly through TAP. Bulk orders aggregated across users unlock wholesale rates.</span>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;font-size:0.88rem;color:var(--sand);opacity:0.85;">
+            <span style="color:var(--amber);font-weight:700;flex-shrink:0;">04</span>
+            <span>TAP earns a small commission on every sale. Shops earn more customers. Builders save thousands.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MUNICIPAL BLOCKCHAIN -->
+<section id="municipal">
+  <div class="blockchain-tag">TAP Blockchain — Dedicated Chain for African Land</div>
+  <div class="section-eyebrow">Municipal Plugin & Digital Title Deeds</div>
+  <h2 class="section-title">Land Ownership,<br><em>Immutably Recorded.</em></h2>
+  <p class="section-sub">TAP's Municipal Plugin will operate on its own dedicated blockchain — purpose-built for African land registry. Not shared. Not compromised. Permanently yours.</p>
+
+  <div class="municipal-layout">
+
+    <!-- LEFT: blockchain visual -->
+    <div class="reveal">
+      <div class="blockchain-visual">
+
+        <div class="chain-block active-block">
+          <div class="block-header">
+            <span class="block-id">BLOCK #00847291</span>
+            <span class="block-time">Just Now — Harare, ZW</span>
+          </div>
+          <div class="block-hash">0x3a9f…c72b → SHA256: e4d8f1a92c…</div>
+          <div class="block-content">🏠 Title Deed Issued — Plot 14B, Borrowdale</div>
+          <div class="block-meta">Owner: Verified ✓ · Size: 1,200m² · Price: $48,000</div>
+          <div class="block-badge">✓ Immutable Record Created</div>
+        </div>
+
+        <div class="chain-connector"></div>
+
+        <div class="chain-block">
+          <div class="block-header">
+            <span class="block-id">BLOCK #00847290</span>
+            <span class="block-time">2 mins ago — Lusaka, ZM</span>
+          </div>
+          <div class="block-hash">0x1b7e…d34a → SHA256: 92af3b17c1…</div>
+          <div class="block-content">🏢 Title Transfer — Commercial Stand, Cairo Rd</div>
+          <div class="block-meta">Buyer Verified ✓ · Seller Verified ✓ · Liens: None</div>
+          <div class="block-badge">✓ Transfer Recorded</div>
+        </div>
+
+        <div class="chain-connector"></div>
+
+        <div class="chain-block">
+          <div class="block-header">
+            <span class="block-id">BLOCK #00847289</span>
+            <span class="block-time">5 mins ago — Nairobi, KE</span>
+          </div>
+          <div class="block-hash">0x8c2d…a19f → SHA256: 5e72d4b8f0…</div>
+          <div class="block-content">🌍 Land Ownership Verified — Westlands Plot</div>
+          <div class="block-meta">Registry Match: ✓ · Fraud Check: Clear · Encumbrance: None</div>
+          <div class="block-badge">✓ Verification Complete</div>
+        </div>
+
+        <div class="chain-connector"></div>
+
+        <div class="chain-block">
+          <div class="block-header">
+            <span class="block-id">BLOCK #00847288</span>
+            <span class="block-time">8 mins ago — Lagos, NG</span>
+          </div>
+          <div class="block-hash">0x5f4a…b82c → SHA256: 1d9e7c3a44…</div>
+          <div class="block-content">🏗️ Construction Permit Linked to Title</div>
+          <div class="block-meta">Permit #LG-2025-4421 · Contractor Verified ✓</div>
+          <div class="block-badge">✓ On-Chain Permit Logged</div>
+        </div>
+
+      </div>
+
+      <div class="municipal-stats">
+        <div class="m-stat"><strong>3–12mo</strong><span>Current Title Transfer Time</span></div>
+        <div class="m-stat"><strong>&lt;60s</strong><span>TAP Blockchain Time</span></div>
+        <div class="m-stat"><strong>0</strong><span>Human Intervention Needed</span></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: why Africa needs this -->
+    <div class="reveal">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--cream);line-height:1.25;margin-bottom:1rem;">
+        Why Africa <em style="color:#28c864;font-style:italic;">Cannot Wait</em> for Digital Land Titles
+      </h3>
+      <p style="font-size:0.9rem;color:var(--sand);opacity:0.75;line-height:1.75;margin-bottom:1.5rem;">
+        Africa's land title system is broken at its foundation. TAP's dedicated blockchain is not a technology experiment — it is an urgent solution to a crisis that costs the continent billions every year and locks millions of citizens out of their own property rights.
+      </p>
+
+      <div class="why-africa-grid">
+        <div class="why-card">
+          <span class="why-card-icon">🚨</span>
+          <div class="why-card-title">Fake Titles Are Epidemic</div>
+          <div class="why-card-desc">Fraudulent title deeds are the single biggest source of real estate fraud across Africa. The same plot of land is routinely sold to multiple buyers simultaneously — destroying investor confidence and trapping families in legal battles for decades.</div>
+        </div>
+        <div class="why-card">
+          <span class="why-card-icon">🐌</span>
+          <div class="why-card-title">Months of Bureaucracy</div>
+          <div class="why-card-desc">In many African countries, transferring a title deed takes 3 to 12 months — and that's if no "facilitation payments" are demanded along the way. Investors cannot wait 12 months to confirm they own what they just paid for. Blockchain reduces this to under 60 seconds.</div>
+        </div>
+        <div class="why-card">
+          <span class="why-card-icon">💸</span>
+          <div class="why-card-title">$95B Diaspora Blocked</div>
+          <div class="why-card-desc">Africa's diaspora sends $95 billion home every year — but a large portion never reaches its intended purpose because investors cannot safely verify land ownership from abroad. Digital titles verifiable from anywhere in the world unlock this capital flood.</div>
+        </div>
+        <div class="why-card">
+          <span class="why-card-icon">🏦</span>
+          <div class="why-card-title">No Collateral = No Credit</div>
+          <div class="why-card-desc">Without verifiable title deeds, African property owners cannot access mortgages or business loans. The dead capital locked in unregistered African land is estimated in the trillions. Digital titles turn dormant assets into economic engines.</div>
+        </div>
+        <div class="why-card">
+          <span class="why-card-icon">🌍</span>
+          <div class="why-card-title">Foreign Investment Deterred</div>
+          <div class="why-card-desc">International investors who could fund Africa's infrastructure gap are terrified by stories of fake titles, bribe demands, and contract breaches. A tamper-proof blockchain registry changes the risk calculus entirely — making Africa investable at scale.</div>
+        </div>
+        <div class="why-card">
+          <span class="why-card-icon">⛓️</span>
+          <div class="why-card-title">Why a Dedicated Blockchain</div>
+          <div class="why-card-desc">TAP will not use a general-purpose public chain. A dedicated blockchain ensures African land data stays in Africa, gives governments and regulators full oversight, guarantees transaction speed and cost efficiency, and allows custom smart contract rules aligned to each country's land laws.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;padding:1.5rem;background:rgba(40,200,100,0.05);border:1px solid rgba(40,200,100,0.15);border-radius:4px;">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#28c864;margin-bottom:0.8rem;">TAP Blockchain Features</div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          <div style="font-size:0.85rem;color:var(--sand);opacity:0.85;display:flex;gap:0.8rem;"><span style="color:#28c864;flex-shrink:0;">✓</span> Immutable title records — no official can alter or delete</div>
+          <div style="font-size:0.85rem;color:var(--sand);opacity:0.85;display:flex;gap:0.8rem;"><span style="color:#28c864;flex-shrink:0;">✓</span> Smart contracts automate title transfer upon verified payment</div>
+          <div style="font-size:0.85rem;color:var(--sand);opacity:0.85;display:flex;gap:0.8rem;"><span style="color:#28c864;flex-shrink:0;">✓</span> Biometric identity verification for all parties</div>
+          <div style="font-size:0.85rem;color:var(--sand);opacity:0.85;display:flex;gap:0.8rem;"><span style="color:#28c864;flex-shrink:0;">✓</span> African data stays in Africa — sovereign infrastructure</div>
+          <div style="font-size:0.85rem;color:var(--sand);opacity:0.85;display:flex;gap:0.8rem;"><span style="color:#28c864;flex-shrink:0;">✓</span> Government portal for real-time land registry oversight</div>
+          <div style="font-size:0.85rem;color:var(--sand);opacity:0.85;display:flex;gap:0.8rem;"><span style="color:#28c864;flex-shrink:0;">✓</span> API integration with existing municipal systems in each country</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2 class="cta-title">Be Part of<br><em>Africa's Build.</em></h2>
+  <p class="cta-sub">Whether you're an investor, contractor, diaspora builder, or government partner — TAP is being built for you.</p>
+
+  <div class="cta-tabs">
+    <button class="tab-btn active" onclick="switchTab('waitlist', this)">Join Waitlist</button>
+    <button class="tab-btn" onclick="switchTab('demo', this)">Request Demo</button>
+    <button class="tab-btn" onclick="switchTab('invest', this)">Investor / Partner</button>
+  </div>
+
+  <!-- WAITLIST -->
+  <div id="tab-waitlist" class="tab-pane active">
+    <div class="form-wrap" id="form-waitlist">
+      <div class="form-row">
+        <div class="form-group">
+          <input type="text" placeholder="First Name" />
+        </div>
+        <div class="form-group">
+          <input type="text" placeholder="Last Name" />
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email Address" />
+      </div>
+      <div class="form-group">
+        <select>
+          <option value="" disabled selected>I am a...</option>
+          <option>Property Owner</option>
+          <option>Diaspora Investor</option>
+          <option>Contractor / Developer</option>
+          <option>First-Time Home Builder</option>
+          <option>Government Official</option>
+          <option>Material Supplier</option>
+          <option>Franchise Entrepreneur</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select>
+          <option value="" disabled selected>Country of Interest</option>
+          <option>Zimbabwe</option>
+          <option>South Africa</option>
+          <option>Kenya</option>
+          <option>Nigeria</option>
+          <option>Ghana</option>
+          <option>Zambia</option>
+          <option>Other African Country</option>
+          <option>Diaspora (Outside Africa)</option>
+        </select>
+      </div>
+      <button class="btn-primary" style="width:100%;margin-top:0.5rem;" onclick="submitForm('waitlist')">Secure My Spot →</button>
+    </div>
+    <div class="form-success" id="success-waitlist">
+      <div class="check">🌍</div>
+      <h3>You're on the list.</h3>
+      <p>We'll be in touch as TAP launches in your country. Welcome to the movement.</p>
+    </div>
+  </div>
+
+  <!-- DEMO -->
+  <div id="tab-demo" class="tab-pane">
+    <div class="form-wrap" id="form-demo">
+      <div class="form-row">
+        <div class="form-group">
+          <input type="text" placeholder="Your Name" />
+        </div>
+        <div class="form-group">
+          <input type="text" placeholder="Company / Organisation" />
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email Address" />
+      </div>
+      <div class="form-group">
+        <input type="tel" placeholder="Phone Number (WhatsApp preferred)" />
+      </div>
+      <div class="form-group">
+        <select>
+          <option value="" disabled selected>Demo Interest</option>
+          <option>AI Construction Studio</option>
+          <option>Property Listings Platform</option>
+          <option>Government Tender Portal</option>
+          <option>Full Platform Overview</option>
+        </select>
+      </div>
+      <button class="btn-primary" style="width:100%;margin-top:0.5rem;" onclick="submitForm('demo')">Request Demo →</button>
+    </div>
+    <div class="form-success" id="success-demo">
+      <div class="check">📅</div>
+      <h3>Demo requested.</h3>
+      <p>Patrick and the team will reach out within 48 hours to schedule your walkthrough.</p>
+    </div>
+  </div>
+
+  <!-- INVEST -->
+  <div id="tab-invest" class="tab-pane">
+    <div class="form-wrap" id="form-invest">
+      <div class="form-group">
+        <input type="text" placeholder="Full Name" />
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email Address" />
+      </div>
+      <div class="form-group">
+        <select>
+          <option value="" disabled selected>I am interested as a...</option>
+          <option>Angel Investor</option>
+          <option>Venture Capital Fund</option>
+          <option>Strategic Partner</option>
+          <option>Franchise Partner</option>
+          <option>Government / Municipal Partner</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select>
+          <option value="" disabled selected>Investment Range (USD)</option>
+          <option>Under $50K</option>
+          <option>$50K – $250K</option>
+          <option>$250K – $1M</option>
+          <option>$1M – $5M</option>
+          <option>$5M+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <textarea rows="3" placeholder="Brief message or area of strategic interest..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;margin-top:0.5rem;" onclick="submitForm('invest')">Send to Founder →</button>
+    </div>
+    <div class="form-success" id="success-invest">
+      <div class="check">🤝</div>
+      <h3>Message received.</h3>
+      <p>Patrick Chidawanyika will personally review your message and respond within 72 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo" style="display:flex;align-items:center;gap:0.75rem;">
+        <div class="logo-icon"></div>
+        <span class="logo-text">Trust African Properties</span>
+      </div>
+      <p>Building Africa's first comprehensive digital real estate and infrastructure ecosystem. From text to building. From idea to reality. From trust to transaction.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <ul>
+        <li><a href="#features">Buy & Sell</a></li>
+        <li><a href="#features">Leasing</a></li>
+        <li><a href="#ai-studio">AI Studio</a></li>
+        <li><a href="#tenders">Tenders</a></li>
+        <li><a href="#features">Franchising</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About TAP</a></li>
+        <li><a href="#">Our Mission</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:takudzwapatrickc@gmail.com">Email Founder</a></li>
+        <li><a href="tel:+263782281006">+263 782 281 006</a></li>
+        <li><a href="#">Zvishavane, Zimbabwe</a></li>
+        <li><a href="#">Ajman Free Zone, UAE</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Trust African Properties (TAP). Registered in Ajman Free Zone, UAE.</p>
+    <div class="footer-flag">🇿🇼 🇿🇦 🇰🇪 🇳🇬 🇬🇭 🇿🇲</div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Tab switching
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Form submit simulation
+  function submitForm(name) {
+    document.getElementById('form-' + name).style.display = 'none';
+    document.getElementById('success-' + name).style.display = 'block';
+  }
+
+
+  // ── MATERIALS MARKETPLACE ──
+  const materials = [
+    { name: 'Portland Cement (50kg)', icon: '🪨', cat: 'concrete', base: 8.50, unit: 'per bag', shop: 'BuildRight ZW' },
+    { name: 'River Sand (1 tonne)', icon: '🏜️', cat: 'concrete', base: 22.00, unit: 'per tonne', shop: 'Coastal Aggregates' },
+    { name: 'Concrete Blocks (140mm)', icon: '🧱', cat: 'concrete', base: 0.85, unit: 'per block', shop: 'BlockMaster SA' },
+    { name: 'Steel Rebar 12mm (6m)', icon: '⚙️', cat: 'steel', base: 14.20, unit: 'per bar', shop: 'SteelHub Harare' },
+    { name: 'BRC Mesh (2.4x6m)', icon: '🕸️', cat: 'steel', base: 38.00, unit: 'per sheet', shop: 'SteelHub Harare' },
+    { name: 'Mild Steel Angle Iron', icon: '📐', cat: 'steel', base: 9.80, unit: 'per 6m', shop: 'Metro Metals ZM' },
+    { name: 'Pine Timber 44x69mm', icon: '🪵', cat: 'timber', base: 3.20, unit: 'per metre', shop: 'GreenWood Supplies' },
+    { name: 'Hardwood Flooring', icon: '🪵', cat: 'timber', base: 18.50, unit: 'per m²', shop: 'AfriFloor KE' },
+    { name: 'IBR Roofing Sheet (3m)', icon: '🏠', cat: 'roofing', base: 12.40, unit: 'per sheet', shop: 'RoofMasters ZW' },
+    { name: 'Roof Tiles (Box/10)', icon: '🏠', cat: 'roofing', base: 24.00, unit: 'per box', shop: 'TilePro SA' },
+    { name: 'Gutter & Downpipe Kit', icon: '🌧️', cat: 'roofing', base: 32.00, unit: 'per kit', shop: 'RoofMasters ZW' },
+    { name: 'Interior Paint 20L', icon: '🎨', cat: 'finishing', base: 28.00, unit: 'per tin', shop: 'ColourCo SA' },
+    { name: 'Ceramic Floor Tiles (m²)', icon: '🔲', cat: 'finishing', base: 11.50, unit: 'per m²', shop: 'TilePro SA' },
+    { name: 'PVC Door Frame', icon: '🚪', cat: 'finishing', base: 45.00, unit: 'per unit', shop: 'BuildRight ZW' },
+  ];
+
+  const shops = [
+    { name: 'BuildRight ZW', location: 'Harare, Zimbabwe', rating: '★★★★★', products: 142, orders: '1.2K', verified: true },
+    { name: 'SteelHub Harare', location: 'Harare, Zimbabwe', rating: '★★★★☆', products: 67, orders: '890', verified: true },
+    { name: 'BlockMaster SA', location: 'Johannesburg, South Africa', rating: '★★★★★', products: 38, orders: '2.1K', verified: true },
+    { name: 'AfriFloor KE', location: 'Nairobi, Kenya', rating: '★★★★☆', products: 55, orders: '430', verified: true },
+    { name: 'ColourCo SA', location: 'Cape Town, South Africa', rating: '★★★★★', products: 210, orders: '3.4K', verified: true },
+    { name: 'RoofMasters ZW', location: 'Bulawayo, Zimbabwe', rating: '★★★★☆', products: 89, orders: '670', verified: true },
+  ];
+
+  // Animate counters
+  function animateCount(id, target, suffix = '') {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let current = 0;
+    const step = Math.ceil(target / 40);
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current + suffix;
+      if (current >= target) clearInterval(interval);
+    }, 40);
+  }
+
+  // Live clock
+  function updateClock() {
+    const el = document.getElementById('live-clock');
+    if (el) el.textContent = new Date().toLocaleTimeString();
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Price fluctuation simulation
+  let priceOffsets = materials.map(() => 0);
+
+  function getChange(i) {
+    const r = Math.random();
+    if (r < 0.35) return 'up';
+    if (r < 0.6) return 'down';
+    return 'same';
+  }
+
+  function renderPrices(cat) {
+    const tbody = document.getElementById('price-tbody');
+    if (!tbody) return;
+    const filtered = materials.filter(m => cat === 'all' || m.cat === cat);
+    tbody.innerHTML = filtered.map((m, i) => {
+      const offset = priceOffsets[materials.indexOf(m)];
+      const price = (m.base + offset).toFixed(2);
+      const change = getChange(i);
+      const pct = (Math.random() * 2.5 + 0.2).toFixed(1);
+      const changeHtml = change === 'up'
+        ? `<span class="price-change price-up">▲ ${pct}%</span>`
+        : change === 'down'
+        ? `<span class="price-change price-down">▼ ${pct}%</span>`
+        : `<span class="price-change price-same">— 0.0%</span>`;
+      return `<tr>
+        <td><div class="mat-name"><span class="mat-icon">${m.icon}</span>${m.name}</div></td>
+        <td><span class="price-val">$${price}</span> <span style="font-size:0.72rem;color:var(--dust);">${m.unit}</span></td>
+        <td>${changeHtml}</td>
+        <td><span class="shop-badge">${m.shop}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderShops() {
+    const grid = document.getElementById('shop-grid');
+    if (!grid) return;
+    grid.innerHTML = shops.map(s => `
+      <div class="shop-card">
+        <div class="shop-header">
+          <span class="shop-name">${s.name}</span>
+          <span class="shop-rating">${s.rating}</span>
+        </div>
+        <div class="shop-location">📍 ${s.location}</div>
+        <div class="shop-stats">
+          <div class="shop-stat"><strong>${s.products}</strong>Products</div>
+          <div class="shop-stat"><strong>${s.orders}</strong>Orders</div>
+        </div>
+        ${s.verified ? '<div class="shop-verified">✓ TAP Verified</div>' : ''}
+      </div>
+    `).join('');
+  }
+
+  function filterCat(cat, btn) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderPrices(cat);
+  }
+
+  // Simulate live price updates every 4 seconds
+  setInterval(() => {
+    priceOffsets = priceOffsets.map((o, i) => {
+      const delta = (Math.random() - 0.48) * 0.4;
+      return Math.max(-2, Math.min(2, o + delta));
+    });
+    const activeBtn = document.querySelector('.cat-btn.active');
+    const activeCat = activeBtn ? activeBtn.textContent.toLowerCase() : 'all';
+    renderPrices(activeCat === 'all' ? 'all' : activeCat);
+  }, 4000);
+
+  // Init on load
+  window.addEventListener('load', () => {
+    renderPrices('all');
+    renderShops();
+    // animate counters when section visible
+    const materialsSection = document.getElementById('materials');
+    if (materialsSection) {
+      const matObs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          animateCount('shop-count', 50, '+');
+          animateCount('product-count', 1200, '+');
+          animateCount('country-count', 6);
+          matObs.disconnect();
+        }
+      }, { threshold: 0.2 });
+      matObs.observe(materialsSection);
+    }
+  });
+
+  document.querySelectorAll('.hcard').forEach((card, i) => {
+    card.style.animation = `float${i} ${3 + i * 0.5}s ease-in-out infinite alternate`;
+  });
+</script>
+
+<style>
+@keyframes float0 { from { transform: rotate(-4deg) translateY(0); } to { transform: rotate(-4deg) translateY(-6px); } }
+@keyframes float1 { from { transform: rotate(-1.5deg) translateY(0); } to { transform: rotate(-1.5deg) translateY(-4px); } }
+@keyframes float2 { from { transform: rotate(0.5deg) translateY(0); } to { transform: rotate(0.5deg) translateY(-8px); } }
+</style>
+
+</body>
+</html>
