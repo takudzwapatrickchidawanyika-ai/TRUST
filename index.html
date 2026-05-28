@@ -7,15 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --earth: #1a1208;
-    --bark: #2d1f0e;
-    --amber: #c8860a;
-    --gold: #e8a820;
-    --sand: #f2dfa8;
-    --dust: #8a6f45;
-    --cream: #faf4e8;
+    --earth: #f5f0e8;
+    --bark: #ede5d8;
+    --amber: #0a1628;
+    --gold: #b8860b;
+    --sand: #2c3e50;
+    --dust: #6b7280;
+    --cream: #0a1628;
     --white: #ffffff;
-    --green: #1e4035;
+    --green: #0d2137;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,7 +37,7 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 1000;
-    opacity: 0.4;
+    opacity: 0.15;
   }
 
   /* ── NAV ── */
@@ -49,7 +49,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.4rem 4rem;
-    background: linear-gradient(to bottom, rgba(26,18,8,0.95), transparent);
+    background: linear-gradient(to bottom, rgba(245,240,232,0.98), rgba(245,240,232,0.0));
     backdrop-filter: blur(2px);
   }
 
@@ -121,8 +121,8 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(200,134,10,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(30,64,53,0.25) 0%, transparent 50%);
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(10,22,40,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(184,134,11,0.08) 0%, transparent 50%);
   }
 
   .hero-lines {
@@ -130,7 +130,7 @@
     right: 0; top: 0; bottom: 0;
     width: 50%;
     overflow: hidden;
-    opacity: 0.06;
+    opacity: 0.04;
   }
 
   .hero-lines svg { width: 100%; height: 100%; }
@@ -249,8 +249,8 @@
 
   .hcard {
     position: absolute;
-    background: var(--bark);
-    border: 1px solid rgba(200,134,10,0.2);
+    background: #0a1628;
+    border: 1px solid rgba(184,134,11,0.25);
     border-radius: 6px;
     padding: 1.8rem;
     width: 280px;
@@ -262,7 +262,7 @@
 
   .hcard-badge {
     display: inline-block;
-    background: rgba(200,134,10,0.15);
+    background: rgba(10,22,40,0.12);
     color: var(--amber);
     font-family: 'Syne', sans-serif;
     font-size: 0.65rem;
@@ -277,13 +277,13 @@
   .hcard h3 {
     font-family: 'Playfair Display', serif;
     font-size: 1.3rem;
-    color: var(--cream);
+    color: #f5f0e8;
     margin-bottom: 0.5rem;
   }
 
   .hcard p {
     font-size: 0.82rem;
-    color: var(--dust);
+    color: rgba(245,240,232,0.5);
     line-height: 1.6;
   }
 
@@ -303,9 +303,9 @@
 
   /* ── STATS BAND ── */
   .stats-band {
-    background: var(--bark);
-    border-top: 1px solid rgba(200,134,10,0.15);
-    border-bottom: 1px solid rgba(200,134,10,0.15);
+    background: #0a1628;
+    border-top: 1px solid rgba(184,134,11,0.3);
+    border-bottom: 1px solid rgba(184,134,11,0.3);
     padding: 3rem 4rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -318,7 +318,7 @@
     font-family: 'Playfair Display', serif;
     font-size: 2.6rem;
     font-weight: 900;
-    color: var(--gold);
+    color: #e8c84a;
     display: block;
     line-height: 1;
   }
@@ -329,7 +329,7 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--dust);
+    color: rgba(245,240,232,0.6);
     margin-top: 0.5rem;
     display: block;
   }
@@ -380,19 +380,19 @@
   }
 
   /* ── FEATURES ── */
-  #features { background: var(--earth); }
+  #features { background: #f5f0e8; }
 
   .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5px;
     margin-top: 4rem;
-    background: rgba(200,134,10,0.12);
-    border: 1px solid rgba(200,134,10,0.12);
+    background: rgba(10,22,40,0.1);
+    border: 1px solid rgba(10,22,40,0.1);
   }
 
   .feature-card {
-    background: var(--earth);
+    background: #f5f0e8;
     padding: 2.8rem 2.4rem;
     position: relative;
     overflow: hidden;
@@ -404,7 +404,7 @@
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 2px;
-    background: var(--amber);
+    background: #0a1628;
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s ease;
@@ -417,13 +417,13 @@
     font-family: 'Playfair Display', serif;
     font-size: 4rem;
     font-weight: 900;
-    color: rgba(200,134,10,0.12);
+    color: rgba(10,22,40,0.08);
     line-height: 1;
     margin-bottom: 1.2rem;
     transition: color 0.3s;
   }
 
-  .feature-card:hover .feature-num { color: rgba(200,134,10,0.25); }
+  .feature-card:hover .feature-num { color: rgba(10,22,40,0.15); }
 
   .feature-icon {
     font-size: 2rem;
@@ -454,14 +454,14 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--amber);
-    background: rgba(200,134,10,0.1);
+    background: rgba(10,22,40,0.07);
     padding: 0.25rem 0.7rem;
     border-radius: 2px;
   }
 
   /* ── AI STUDIO SHOWCASE ── */
   #ai-studio {
-    background: var(--green);
+    background: #0d2137;
     position: relative;
     overflow: hidden;
   }
@@ -471,7 +471,7 @@
     position: absolute;
     top: -100px; right: -100px;
     width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(200,134,10,0.15) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(184,134,11,0.15) 0%, transparent 60%);
     pointer-events: none;
   }
 
@@ -484,18 +484,18 @@
 
   .ai-demo {
     background: rgba(26,18,8,0.6);
-    border: 1px solid rgba(200,134,10,0.2);
+    border: 1px solid rgba(10,22,40,0.15);
     border-radius: 8px;
     overflow: hidden;
   }
 
   .ai-demo-bar {
-    background: rgba(200,134,10,0.1);
+    background: rgba(10,22,40,0.07);
     padding: 0.8rem 1.2rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    border-bottom: 1px solid rgba(200,134,10,0.15);
+    border-bottom: 1px solid rgba(10,22,40,0.12);
   }
 
   .dot { width: 10px; height: 10px; border-radius: 50%; }
@@ -507,7 +507,7 @@
 
   .ai-prompt {
     background: rgba(200,134,10,0.08);
-    border: 1px solid rgba(200,134,10,0.2);
+    border: 1px solid rgba(10,22,40,0.15);
     border-radius: 4px;
     padding: 1rem 1.2rem;
     font-size: 0.85rem;
@@ -593,7 +593,7 @@
     align-items: flex-start;
     gap: 0.8rem;
     padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(200,134,10,0.1);
+    border-bottom: 1px solid rgba(10,22,40,0.07);
     font-size: 0.9rem;
     color: var(--sand);
     opacity: 0.85;
@@ -607,7 +607,7 @@
   }
 
   /* ── TENDER PORTAL ── */
-  #tenders { background: var(--earth); }
+  #tenders { background: #f5f0e8; }
 
   .tender-layout {
     display: grid;
@@ -620,8 +620,8 @@
   .tender-list { display: flex; flex-direction: column; gap: 1rem; }
 
   .tender-item {
-    background: var(--bark);
-    border: 1px solid rgba(200,134,10,0.15);
+    background: #ede5d8;
+    border: 1px solid rgba(10,22,40,0.12);
     border-radius: 4px;
     padding: 1.4rem 1.6rem;
     display: grid;
@@ -633,7 +633,7 @@
   }
 
   .tender-item:hover {
-    border-color: rgba(200,134,10,0.5);
+    border-color: rgba(10,22,40,0.4);
     transform: translateX(4px);
   }
 
@@ -719,8 +719,8 @@
 
   /* ── CTA SECTION ── */
   #cta {
-    background: var(--bark);
-    border-top: 1px solid rgba(200,134,10,0.2);
+    background: #0a1628;
+    border-top: 1px solid rgba(10,22,40,0.15);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -732,7 +732,7 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(200,134,10,0.1) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(184,134,11,0.12) 0%, transparent 60%);
     pointer-events: none;
   }
 
@@ -740,7 +740,7 @@
     font-family: 'Playfair Display', serif;
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 900;
-    color: var(--cream);
+    color: #f5f0e8;
     margin-bottom: 1rem;
     position: relative;
   }
@@ -749,8 +749,8 @@
 
   .cta-sub {
     font-size: 1rem;
-    color: var(--sand);
-    opacity: 0.7;
+    color: #b0c4d8;
+    opacity: 0.9;
     max-width: 500px;
     margin: 0 auto 3rem;
     line-height: 1.7;
@@ -764,7 +764,7 @@
     gap: 0;
     margin-bottom: 2.5rem;
     position: relative;
-    border: 1px solid rgba(200,134,10,0.25);
+    border: 1px solid rgba(10,22,40,0.2);
     border-radius: 2px;
     width: fit-content;
     margin-left: auto;
@@ -780,10 +780,10 @@
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--dust);
+    color: rgba(245,240,232,0.5);
     cursor: pointer;
     transition: all 0.2s;
-    border-right: 1px solid rgba(200,134,10,0.25);
+    border-right: 1px solid rgba(184,134,11,0.25);
   }
 
   .tab-btn:last-child { border-right: none; }
@@ -809,8 +809,8 @@
   .form-group input,
   .form-group select,
   .form-group textarea {
-    background: rgba(26,18,8,0.6);
-    border: 1px solid rgba(200,134,10,0.25);
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(184,134,11,0.3);
     border-radius: 2px;
     padding: 0.9rem 1.2rem;
     color: var(--cream);
@@ -822,7 +822,7 @@
   }
 
   .form-group input::placeholder,
-  .form-group textarea::placeholder { color: var(--dust); opacity: 0.6; }
+  .form-group textarea::placeholder { color: rgba(245,240,232,0.4); opacity: 1; }
 
   .form-group input:focus,
   .form-group select:focus,
@@ -860,8 +860,8 @@
 
   /* ── FOOTER ── */
   footer {
-    background: var(--earth);
-    border-top: 1px solid rgba(200,134,10,0.12);
+    background: #f5f0e8;
+    border-top: 1px solid rgba(10,22,40,0.12);
     padding: 4rem 4rem 2rem;
   }
 
@@ -874,7 +874,7 @@
 
   .footer-brand p {
     font-size: 0.85rem;
-    color: var(--dust);
+    color: #6b7280;
     line-height: 1.7;
     margin-top: 1rem;
     max-width: 280px;
@@ -898,7 +898,7 @@
 
   .footer-col ul li a {
     font-size: 0.85rem;
-    color: var(--dust);
+    color: #6b7280;
     text-decoration: none;
     transition: color 0.2s;
   }
@@ -906,7 +906,7 @@
   .footer-col ul li a:hover { color: var(--gold); }
 
   .footer-bottom {
-    border-top: 1px solid rgba(200,134,10,0.1);
+    border-top: 1px solid rgba(10,22,40,0.1);
     padding-top: 1.5rem;
     display: flex;
     justify-content: space-between;
@@ -949,7 +949,7 @@
 
   /* ── MATERIALS MARKETPLACE ── */
   #materials {
-    background: var(--bark);
+    background: #ede5d8;
     position: relative;
     overflow: hidden;
   }
@@ -958,7 +958,7 @@
     position: absolute;
     bottom: -150px; left: -150px;
     width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(200,134,10,0.1) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(10,22,40,0.07) 0%, transparent 60%);
     pointer-events: none;
   }
   .materials-layout {
@@ -970,18 +970,18 @@
   }
   .ticker-wrap {
     overflow: hidden;
-    border: 1px solid rgba(200,134,10,0.2);
+    border: 1px solid rgba(10,22,40,0.15);
     border-radius: 4px;
-    background: var(--earth);
+    background: #f5f0e8;
     margin-bottom: 1.5rem;
   }
   .ticker-bar {
-    background: rgba(200,134,10,0.12);
+    background: rgba(10,22,40,0.06);
     padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    border-bottom: 1px solid rgba(200,134,10,0.15);
+    border-bottom: 1px solid rgba(10,22,40,0.12);
   }
   .ticker-dot {
     width: 7px; height: 7px;
@@ -1009,7 +1009,7 @@
     letter-spacing: 0.05em;
   }
   .price-table { width: 100%; border-collapse: collapse; }
-  .price-table thead tr { border-bottom: 1px solid rgba(200,134,10,0.15); }
+  .price-table thead tr { border-bottom: 1px solid rgba(10,22,40,0.12); }
   .price-table th {
     font-family: 'Syne', sans-serif;
     font-size: 0.62rem;
@@ -1049,7 +1049,7 @@
     letter-spacing: 0.06em;
     padding: 0.2rem 0.5rem;
     border-radius: 2px;
-    background: rgba(200,134,10,0.1);
+    background: rgba(10,22,40,0.07);
     color: var(--amber);
   }
   .cat-filter {
@@ -1061,7 +1061,7 @@
   }
   .cat-btn {
     background: transparent;
-    border: 1px solid rgba(200,134,10,0.2);
+    border: 1px solid rgba(10,22,40,0.15);
     border-radius: 2px;
     padding: 0.3rem 0.9rem;
     font-family: 'Syne', sans-serif;
@@ -1076,8 +1076,8 @@
   .cat-btn.active, .cat-btn:hover { background: var(--amber); border-color: var(--amber); color: var(--earth); }
   .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
   .shop-card {
-    background: var(--earth);
-    border: 1px solid rgba(200,134,10,0.15);
+    background: #f5f0e8;
+    border: 1px solid rgba(10,22,40,0.12);
     border-radius: 4px;
     padding: 1.2rem;
     transition: border-color 0.2s, transform 0.2s;
@@ -1106,8 +1106,8 @@
     margin-top: 0.8rem;
   }
   .materials-cta-box {
-    background: var(--earth);
-    border: 1px solid rgba(200,134,10,0.2);
+    background: #f5f0e8;
+    border: 1px solid rgba(10,22,40,0.15);
     border-radius: 6px;
     padding: 2rem;
     margin-top: 2rem;
@@ -1337,14 +1337,14 @@
   <div class="hero-bg"></div>
   <div class="hero-lines">
     <svg viewBox="0 0 500 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="0" y1="100" x2="500" y2="300" stroke="#c8860a" stroke-width="0.5"/>
-      <line x1="0" y1="200" x2="500" y2="400" stroke="#c8860a" stroke-width="0.5"/>
-      <line x1="0" y1="300" x2="500" y2="500" stroke="#c8860a" stroke-width="0.5"/>
+      <line x1="0" y1="100" x2="500" y2="300" stroke="#0a1628" stroke-width="0.5"/>
+      <line x1="0" y1="200" x2="500" y2="400" stroke="#0a1628" stroke-width="0.5"/>
+      <line x1="0" y1="300" x2="500" y2="500" stroke="#0a1628" stroke-width="0.5"/>
       <line x1="0" y1="400" x2="500" y2="600" stroke="#c8860a" stroke-width="0.5"/>
-      <line x1="100" y1="0" x2="300" y2="800" stroke="#c8860a" stroke-width="0.3"/>
+      <line x1="100" y1="0" x2="300" y2="800" stroke="#0a1628" stroke-width="0.3"/>
       <line x1="250" y1="0" x2="450" y2="800" stroke="#c8860a" stroke-width="0.3"/>
-      <circle cx="250" cy="250" r="180" stroke="#c8860a" stroke-width="0.5" fill="none"/>
-      <circle cx="250" cy="250" r="120" stroke="#c8860a" stroke-width="0.3" fill="none"/>
+      <circle cx="250" cy="250" r="180" stroke="#0a1628" stroke-width="0.5" fill="none"/>
+      <circle cx="250" cy="250" r="120" stroke="#0a1628" stroke-width="0.3" fill="none"/>
     </svg>
   </div>
 
@@ -1664,7 +1664,7 @@
 
       <div class="shop-grid" id="shop-grid"></div>
 
-      <div style="margin-top:2rem;background:rgba(200,134,10,0.06);border:1px solid rgba(200,134,10,0.15);border-radius:4px;padding:1.5rem;">
+      <div style="margin-top:2rem;background:rgba(200,134,10,0.06);border:1px solid rgba(10,22,40,0.12);border-radius:4px;padding:1.5rem;">
         <div class="section-eyebrow" style="margin-bottom:0.8rem;">How It Works</div>
         <div style="display:flex;flex-direction:column;gap:0.8rem;">
           <div style="display:flex;gap:1rem;align-items:flex-start;font-size:0.88rem;color:var(--sand);opacity:0.85;">
@@ -1917,7 +1917,7 @@
     <div class="form-wrap" id="form-invest">
 
       <!-- Funding Rounds Banner -->
-      <div style="background:rgba(200,134,10,0.07);border:1px solid rgba(200,134,10,0.25);border-radius:4px;padding:1.2rem 1.4rem;margin-bottom:1.5rem;text-align:left;">
+      <div style="background:rgba(200,134,10,0.07);border:1px solid rgba(10,22,40,0.2);border-radius:4px;padding:1.2rem 1.4rem;margin-bottom:1.5rem;text-align:left;">
         <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin-bottom:1rem;">TAP Funding Roadmap</div>
         <div style="display:flex;flex-direction:column;gap:0.75rem;">
 
