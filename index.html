@@ -1475,138 +1475,158 @@
 
 <!-- AI STUDIO -->
 <section id="ai-studio">
-  <div class="ai-layout">
-    <div class="reveal">
-      <div class="section-eyebrow">AI Construction Studio</div>
-      <h2 class="section-title">Professional Design<br>for <em>$30.</em></h2>
-      <p class="section-sub" style="margin-bottom:0;">Architecture was once a luxury. TAP's AI makes it a right. Describe your dream home — get floor plans, 3D renders, cost estimates, and building code compliance in 30 seconds.</p>
-      <ul class="ai-features-list">
-        <li>Text-to-floor-plan in under 30 seconds</li>
-        <li>Photorealistic 3D renderings & virtual walkthroughs</li>
-        <li>Real-time cost estimation with local material prices</li>
-        <li>Automatic building code compliance checks per country</li>
-        <li>Upload a sketch — get professional architectural plans</li>
-        <li>Designs feed directly into construction tender bidding</li>
-      </ul>
-    </div>
-    <div class="ai-demo reveal">
-      <div class="ai-demo-bar">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-y"></div>
-        <div class="dot dot-g"></div>
-        <span style="font-family:'Syne',sans-serif;font-size:0.7rem;color:var(--dust);margin-left:0.5rem;letter-spacing:0.06em;">TAP AI Studio</span>
-      </div>
-      <div class="ai-demo-body">
-        <div class="ai-prompt">
-          <strong>Your Prompt</strong>
-          "3-bedroom modern home with solar panels and a covered veranda, suitable for Harare climate, budget $55,000 USD"
-        </div>
-        <div class="ai-output-grid">
-          <div class="ai-output-item">
-            <span class="label">Floor Plans</span>
-            <span class="value">✓ Generated (3 variants)</span>
-          </div>
-          <div class="ai-output-item">
-            <span class="label">3D Render</span>
-            <span class="value">✓ Photorealistic</span>
-          </div>
-          <div class="ai-output-item">
-            <span class="label">Material List</span>
-            <span class="value">✓ 48 items costed</span>
-          </div>
-          <div class="ai-output-item">
-            <span class="label">Code Compliance</span>
-            <span class="value">✓ Zimbabwe Standards</span>
-          </div>
-          <div class="ai-output-item">
-            <span class="label">Est. Cost</span>
-            <span class="value">$52,400 USD</span>
-          </div>
-          <div class="ai-output-item">
-            <span class="label">Build Timeline</span>
-            <span class="value">7–9 months</span>
-          </div>
-        </div>
-        <div class="ai-price-callout">
-          <span>Total Design Cost</span>
-          <strong>$30</strong>
-        </div>
-      </div>
-    </div>
+  <div class="section-header reveal" style="text-align:center;margin-bottom:2.5rem;">
+    <div class="section-eyebrow" style="justify-content:center;">Feature 01 — AI Construction Studio</div>
+    <h2 class="section-title" style="text-align:center;">Professional Design<br>for <em>$30.</em></h2>
+    <p class="section-sub" style="text-align:center;margin:0 auto;">Describe your dream home in plain language. TAP&apos;s AI returns a complete floor plan, material list, cost estimate, and timeline — in 30 seconds.</p>
   </div>
-</section>
 
-<!-- TENDERS -->
-<section id="tenders">
-  <div class="section-eyebrow">Tender Portal</div>
-  <h2 class="section-title">Infrastructure Built<br><em>Transparently.</em></h2>
-  <p class="section-sub">$130 billion annual infrastructure gap. Government projects published openly. Every bid visible. Every payment milestone-protected. Corruption has nowhere to hide.</p>
+  <div class="ai-studio-wrapper reveal">
 
-  <div class="tender-layout">
-    <div class="tender-list reveal">
-      <div class="tender-item">
-        <div>
-          <div class="tender-country">🇿🇲 Zambia</div>
-          <div class="tender-title">Primary School Complex — Lusaka</div>
-          <div class="tender-meta">12 classrooms · Closes in 18 days</div>
-        </div>
-        <div class="tender-value">
-          <span class="amount">$4.2M</span>
-          <span class="commission">$210K TAP fee</span>
-        </div>
+    <!-- INPUT PANEL -->
+    <div class="ai-input-panel">
+      <div class="ai-input-label">✦ Describe Your Dream Home</div>
+      <textarea id="ai-desc" class="ai-desc-input" placeholder="Describe your home...">3-bedroom modern home with solar panels and a covered veranda, suitable for Harare climate, budget $55,000 USD</textarea>
+
+      <div class="ai-chips">
+        <span class="ai-chip" onclick="setDesc(0)">3-bed modern, Harare</span>
+        <span class="ai-chip" onclick="setDesc(1)">4-bed luxury villa, Cape Town</span>
+        <span class="ai-chip" onclick="setDesc(2)">2-bed affordable, Lusaka</span>
+        <span class="ai-chip" onclick="setDesc(3)">5-bed coastal estate, Mombasa</span>
+        <span class="ai-chip" onclick="setDesc(4)">Traditional home, Accra</span>
       </div>
-      <div class="tender-item">
-        <div>
-          <div class="tender-country">🇿🇼 Zimbabwe</div>
-          <div class="tender-title">Rural Health Clinic Network</div>
-          <div class="tender-meta">8 clinics · Closes in 25 days</div>
+
+      <button class="ai-generate-btn" id="ai-gen-btn" onclick="runAIStudio()">
+        <span id="ai-btn-icon">✦</span>
+        <span id="ai-btn-text">Generate Design</span>
+      </button>
+
+      <!-- LOADING ANIMATION -->
+      <div class="ai-loader" id="ai-loader">
+        <div class="ai-loader-circle">
+          <div class="ai-loader-ring"></div>
+          <span class="ai-loader-pct" id="ai-loader-pct">0%</span>
         </div>
-        <div class="tender-value">
-          <span class="amount">$12.8M</span>
-          <span class="commission">$640K TAP fee</span>
-        </div>
-      </div>
-      <div class="tender-item">
-        <div>
-          <div class="tender-country">🇰🇪 Kenya</div>
-          <div class="tender-title">County Road Upgrade — Mombasa</div>
-          <div class="tender-meta">42km · Closes in 30 days</div>
-        </div>
-        <div class="tender-value">
-          <span class="amount">$45M</span>
-          <span class="commission">$2.25M TAP fee</span>
-        </div>
-      </div>
-      <div class="tender-item">
-        <div>
-          <div class="tender-country">🇬🇭 Ghana</div>
-          <div class="tender-title">Affordable Housing Estate</div>
-          <div class="tender-meta">200 units · Closes in 45 days</div>
-        </div>
-        <div class="tender-value">
-          <span class="amount">$28M</span>
-          <span class="commission">$1.4M TAP fee</span>
+        <div class="ai-loader-msg" id="ai-loader-msg">Analyzing your requirements...</div>
+        <div class="ai-progress-track">
+          <div class="ai-progress-fill" id="ai-progress-fill"></div>
         </div>
       </div>
     </div>
-    <div class="tender-info reveal">
-      <h3>Bid on Government Projects Across 54 African Nations</h3>
-      <p>TAP's tender portal is Africa's first fully transparent infrastructure procurement system. No closed doors, no bribe facilitation payments. Just fair competition and milestone-protected contracts.</p>
-      <div class="tender-stat-row">
-        <div class="t-stat">
-          <strong>$130B</strong>
-          <span>Annual Gap</span>
-        </div>
-        <div class="t-stat">
-          <strong>5%</strong>
-          <span>TAP Commission</span>
-        </div>
-        <div class="t-stat">
-          <strong>54</strong>
-          <span>Countries</span>
-        </div>
+
+    <!-- OUTPUT PANEL -->
+    <div class="ai-output-panel" id="ai-output-panel">
+      <div class="ai-output-placeholder" id="ai-placeholder">
+        <div class="ai-placeholder-icon">🏗️</div>
+        <div class="ai-placeholder-text">Your design will appear here</div>
+        <div class="ai-placeholder-sub">Enter a description and click Generate Design</div>
       </div>
-      <a href="#cta" class="btn-primary">Register as Contractor</a>
+
+      <div class="ai-results" id="ai-results">
+
+        <!-- RESULT HEADER -->
+        <div class="ai-result-header">
+          <div>
+            <div class="ai-result-title" id="ai-result-title">Your Custom Design</div>
+            <div class="ai-result-sub" id="ai-result-sub">Generated by TAP AI Studio</div>
+          </div>
+          <div class="ai-result-badge">TAP AI ✓</div>
+        </div>
+
+        <!-- TAB NAV -->
+        <div class="ai-tabs">
+          <button class="ai-tab active" onclick="switchAITab('floorplan', this)">📐 Floor Plan</button>
+          <button class="ai-tab" onclick="switchAITab('3d', this)">🎮 3D Preview</button>
+          <button class="ai-tab" onclick="switchAITab('costs', this)">💰 Costs</button>
+          <button class="ai-tab" onclick="switchAITab('timeline', this)">📅 Timeline</button>
+        </div>
+
+        <!-- TAB: FLOOR PLAN -->
+        <div class="ai-tab-pane active" id="tab-floorplan">
+          <div class="blueprint-header">
+            <span class="blueprint-label">📐 Floor Plan — Scale 1:100</span>
+            <span class="blueprint-compass">N ↑</span>
+          </div>
+          <div class="blueprint" id="blueprint-grid">
+            <!-- rooms injected by JS -->
+          </div>
+          <div class="blueprint-footer">
+            <div class="blueprint-scale"><span></span><span></span><span></span> Scale Bar: 0 — 5 — 10m</div>
+            <div class="blueprint-note" id="blueprint-note">TAP AI Generated · For Illustration Only</div>
+          </div>
+        </div>
+
+        <!-- TAB: 3D PREVIEW -->
+        <div class="ai-tab-pane" id="tab-3d">
+          <div class="tour-card" onclick="alert('Full 3D walkthrough coming in Phase 2. Investors: this demonstrates our planned capability.')">
+            <div class="tour-bg">
+              <div class="tour-building" id="tour-building">
+                <div class="tour-roof"></div>
+                <div class="tour-walls">
+                  <div class="tour-window"></div>
+                  <div class="tour-window"></div>
+                  <div class="tour-door"></div>
+                  <div class="tour-window"></div>
+                </div>
+              </div>
+              <div class="tour-ground"></div>
+              <div class="tour-trees">
+                <div class="tour-tree"></div>
+                <div class="tour-tree"></div>
+              </div>
+            </div>
+            <div class="tour-overlay">
+              <div class="tour-play">▶</div>
+              <div class="tour-play-label">Launch 3D Virtual Tour</div>
+              <div class="tour-play-sub">Click to preview · Phase 2 Feature</div>
+            </div>
+          </div>
+          <div class="tour-specs" id="tour-specs">
+            <!-- injected by JS -->
+          </div>
+        </div>
+
+        <!-- TAB: COSTS -->
+        <div class="ai-tab-pane" id="tab-costs">
+          <div class="cost-hero">
+            <div class="cost-hero-label">Total Estimated Cost</div>
+            <div class="cost-hero-num" id="cost-hero-num">$52,400</div>
+            <div class="cost-hero-range" id="cost-hero-range">Range: $49,800 – $55,000</div>
+          </div>
+          <table class="cost-table">
+            <thead>
+              <tr>
+                <th>Material / Item</th>
+                <th>Qty</th>
+                <th>Unit Cost</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="cost-table-body"></tbody>
+          </table>
+          <div class="cost-note" id="cost-note">Prices based on current TAP Materials Marketplace rates · Harare, Zimbabwe</div>
+        </div>
+
+        <!-- TAB: TIMELINE -->
+        <div class="ai-tab-pane" id="tab-timeline">
+          <div class="timeline-summary">
+            <div class="tl-total" id="tl-total">7–9 Months</div>
+            <div class="tl-total-label">Estimated Build Time</div>
+          </div>
+          <div class="tl-phases" id="tl-phases">
+            <!-- injected by JS -->
+          </div>
+          <div class="tl-note">All phases milestone-verified through TAP platform · Funds released on completion</div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="ai-actions">
+          <button class="ai-action-save" onclick="alert('Design saved to your account (demo).')">💾 Save Design</button>
+          <button class="ai-action-pdf" onclick="alert('PDF export coming soon — available at full launch.')">📄 Export PDF</button>
+          <button class="ai-action-restart" onclick="resetAI()">↺ New Design</button>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -2970,6 +2990,1289 @@ input, select, textarea, button {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
+
+/* ══════════════════════════════════════
+   AI CONSTRUCTION STUDIO — LIVE SIM
+══════════════════════════════════════ */
+#ai-studio {
+  background: linear-gradient(160deg, #050d1a 0%, #0a1628 60%, #0d1f38 100%);
+  padding: 6rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+#ai-studio::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+#ai-studio::after {
+  content: '';
+  position: absolute;
+  bottom: -150px; left: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(13,21,32,0.6) 0%, transparent 60%);
+  pointer-events: none;
+}
+.ai-studio-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+  position: relative; z-index: 2;
+}
+.ai-studio-header .section-eyebrow {
+  justify-content: center;
+  color: var(--gold);
+}
+.ai-studio-header .section-eyebrow::before { background: var(--gold); }
+.ai-studio-header .section-title { color: #fff; }
+.ai-studio-header .section-sub { margin: 0 auto; color: rgba(255,255,255,0.55); text-align: center; }
+
+/* Main 2-col layout */
+.ai-studio-body {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 2rem;
+  align-items: start;
+  position: relative; z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── INPUT PANEL ── */
+.ai-input-panel {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ai-input-top {
+  background: rgba(201,168,76,0.08);
+  padding: 1rem 1.4rem;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ai-dot { width: 10px; height: 10px; border-radius: 50%; }
+.ai-dot-r { background: #ff5f57; }
+.ai-dot-y { background: #febc2e; }
+.ai-dot-g { background: #28c840; }
+.ai-input-top-label {
+  margin-left: 0.4rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dust);
+}
+.ai-input-body { padding: 1.4rem; }
+.ai-input-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.7rem;
+  display: block;
+}
+.ai-new-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  color: var(--cream);
+  resize: vertical;
+  outline: none;
+  line-height: 1.65;
+  transition: border-color 0.2s;
+}
+.ai-new-textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+.ai-new-textarea::placeholder { color: var(--dust); opacity: 0.6; }
+body.light-theme .ai-new-textarea {
+  background: #f8f9fa;
+  border-color: #e2e8f0;
+  color: #0a1628;
+}
+body.light-theme .ai-new-textarea::placeholder { color: #a0aec0; }
+
+/* Chips */
+.ai-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+.ai-chip {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 20px;
+  padding: 0.28rem 0.75rem;
+  font-size: 0.73rem;
+  color: var(--sand);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.ai-chip:hover { background: var(--gold); color: var(--earth); border-color: var(--gold); }
+
+/* Generate btn */
+.ai-gen-btn {
+  width: 100%;
+  margin-top: 1.2rem;
+  padding: 0.95rem;
+  background: var(--gold);
+  color: var(--earth);
+  border: none;
+  border-radius: 6px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+}
+.ai-gen-btn:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.4); }
+.ai-gen-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* Info chips */
+.ai-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+}
+.ai-info-chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+}
+.ai-info-chip .label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dust);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+.ai-info-chip .value {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+/* ── LOADING ── */
+.ai-loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 2rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 12px;
+  gap: 1.5rem;
+}
+.ai-loading.visible { display: flex; }
+.ai-pulse-ring {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.15);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: pulseRing 1.5s ease-in-out infinite;
+}
+.ai-pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(201,168,76,0.3);
+  animation: pulseRingOuter 1.5s ease-in-out infinite;
+}
+.ai-pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.15);
+  animation: pulseRingOuter 1.5s ease-in-out infinite 0.3s;
+}
+.ai-pulse-icon { font-size: 1.8rem; }
+@keyframes pulseRing {
+  0%, 100% { transform: scale(1); background: rgba(201,168,76,0.15); }
+  50% { transform: scale(1.08); background: rgba(201,168,76,0.22); }
+}
+@keyframes pulseRingOuter {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.5; }
+}
+.ai-loading-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  text-align: center;
+  min-height: 1.4em;
+  transition: opacity 0.25s;
+}
+.ai-progress-wrap {
+  width: 100%;
+  max-width: 280px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 50px;
+  height: 4px;
+  overflow: hidden;
+}
+.ai-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  border-radius: 50px;
+  transition: width 0.1s linear;
+}
+.ai-progress-pct {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--dust);
+  margin-top: -0.5rem;
+}
+
+/* ── OUTPUT PANEL ── */
+.ai-output-panel {
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+}
+.ai-output-panel.visible { display: flex; }
+
+/* Output header */
+.ai-output-header-bar {
+  background: var(--gold);
+  border-radius: 10px 10px 0 0;
+  padding: 1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: -1rem;
+  position: relative; z-index: 1;
+}
+.ai-output-header-bar h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--earth);
+}
+.ai-output-header-bar .ai-badge-live {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--earth);
+  color: var(--gold);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+}
+
+/* Output tabs */
+.ai-output-tabs {
+  display: flex;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.ai-out-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.7rem 0.5rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dust);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-right: 1px solid rgba(201,168,76,0.1);
+}
+.ai-out-tab:last-child { border-right: none; }
+.ai-out-tab.active { background: var(--gold); color: var(--earth); }
+.ai-out-tab:not(.active):hover { color: var(--gold); background: rgba(201,168,76,0.06); }
+
+/* Tab panes */
+.ai-tab-pane { display: none; }
+.ai-tab-pane.active { display: block; }
+
+/* ── FLOOR PLAN ── */
+.ai-floorplan-wrap {
+  background: #e8f0fe;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 8px;
+  padding: 1.2rem;
+  position: relative;
+}
+.ai-fp-compass {
+  position: absolute;
+  top: 0.8rem; right: 0.8rem;
+  width: 32px; height: 32px;
+  background: #0a2540;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+}
+.ai-fp-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0a2540;
+  opacity: 0.5;
+  margin-bottom: 0.8rem;
+}
+.ai-fp-grid {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+}
+.ai-fp-room {
+  background: rgba(10,37,64,0.06);
+  border: 1.5px solid #0a2540;
+  border-radius: 3px;
+  padding: 0.5rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ai-fp-room.master { grid-column: span 2; min-height: 70px; background: rgba(10,37,64,0.09); }
+.ai-fp-room.living { grid-column: span 2; min-height: 65px; }
+.ai-fp-room-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0a2540;
+}
+.ai-fp-room-size {
+  font-size: 0.7rem;
+  color: rgba(10,37,64,0.55);
+  margin-top: 0.15rem;
+  font-family: 'DM Sans', sans-serif;
+}
+.ai-fp-scale {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.ai-fp-scale-bar {
+  width: 60px; height: 4px;
+  background: #0a2540;
+  opacity: 0.3;
+  border-radius: 2px;
+}
+.ai-fp-scale-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(10,37,64,0.45);
+}
+.ai-fp-features-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.7rem;
+}
+.ai-fp-feat {
+  background: rgba(10,37,64,0.1);
+  border: 1px solid rgba(10,37,64,0.15);
+  border-radius: 3px;
+  padding: 0.2rem 0.55rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #0a2540;
+}
+
+/* ── 3D PREVIEW ── */
+.ai-3d-card {
+  background: linear-gradient(135deg, #0a1628 0%, #163a5f 100%);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.ai-3d-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(201,168,76,0.08) 0%, transparent 60%);
+}
+.ai-3d-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.15); }
+.ai-3d-play {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.2rem;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+  transition: transform 0.2s;
+  position: relative; z-index: 1;
+}
+.ai-3d-card:hover .ai-3d-play { transform: scale(1.1); }
+.ai-3d-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  position: relative; z-index: 1;
+}
+.ai-3d-sub {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  position: relative; z-index: 1;
+}
+.ai-3d-badge {
+  display: inline-block;
+  margin-top: 1rem;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 3px;
+  padding: 0.25rem 0.75rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  position: relative; z-index: 1;
+}
+
+/* ── COST BREAKDOWN ── */
+.ai-cost-wrap { display: flex; flex-direction: column; gap: 0.8rem; }
+.ai-cost-total-row {
+  background: var(--gold);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ai-cost-total-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--earth);
+  opacity: 0.75;
+}
+.ai-cost-total-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--earth);
+}
+.ai-style-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+.ai-mat-table { width: 100%; border-collapse: collapse; }
+.ai-mat-table th {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dust);
+  padding: 0.5rem 0.8rem;
+  text-align: left;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+}
+.ai-mat-table td {
+  padding: 0.65rem 0.8rem;
+  font-size: 0.83rem;
+  color: var(--cream);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.ai-mat-table tr:last-child td { border-bottom: none; }
+.ai-mat-table tr:hover td { background: rgba(201,168,76,0.04); }
+.ai-mat-qty { color: var(--dust); font-size: 0.75rem; }
+.ai-mat-cost { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--gold); }
+.ai-timeline-row {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 6px;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.ai-timeline-icon { font-size: 1.4rem; }
+.ai-timeline-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dust);
+}
+.ai-timeline-val {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin-top: 0.1rem;
+}
+
+/* ── ACTIONS ── */
+.ai-actions-row {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.3rem;
+}
+.ai-action-btn {
+  flex: 1;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid rgba(201,168,76,0.25);
+  background: rgba(201,168,76,0.07);
+  color: var(--gold);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.ai-action-btn:hover { background: var(--gold); color: var(--earth); border-color: var(--gold); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  #ai-studio { padding: 4rem 1.2rem; }
+  .ai-studio-body { grid-template-columns: 1fr; }
+}
+
+
+/* ══════════════════════════════════════
+   AI CONSTRUCTION STUDIO — UPGRADED
+══════════════════════════════════════ */
+#ai-studio {
+  background: var(--earth);
+  padding: 5rem 4rem;
+}
+
+/* Wrapper: 2-col on desktop */
+.ai-studio-wrapper {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 2rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── INPUT PANEL ── */
+.ai-input-panel {
+  background: var(--bark);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
+  padding: 1.8rem;
+  position: sticky;
+  top: 100px;
+}
+.ai-input-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+.ai-desc-input {
+  width: 100%;
+  min-height: 130px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  color: var(--cream);
+  line-height: 1.65;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.ai-desc-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+.ai-desc-input::placeholder { color: var(--dust); }
+.ai-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.9rem 0;
+}
+.ai-chip {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 20px;
+  padding: 0.28rem 0.75rem;
+  font-size: 0.72rem;
+  color: var(--sand);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.ai-chip:hover { background: var(--gold); color: var(--earth); border-color: var(--gold); }
+.ai-generate-btn {
+  width: 100%;
+  background: var(--gold);
+  color: var(--earth);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(201,168,76,0.35);
+  margin-top: 0.4rem;
+}
+.ai-generate-btn:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,168,76,0.5); }
+.ai-generate-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* ── LOADER ── */
+.ai-loader {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0 0.5rem;
+}
+.ai-loader.visible { display: flex; }
+.ai-loader-circle {
+  position: relative;
+  width: 64px; height: 64px;
+  display: flex; align-items: center; justify-content: center;
+}
+.ai-loader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid rgba(201,168,76,0.15);
+  border-top-color: var(--gold);
+  animation: ai-spin 0.9s linear infinite;
+}
+@keyframes ai-spin { to { transform: rotate(360deg); } }
+.ai-loader-pct {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+.ai-loader-msg {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--sand);
+  text-align: center;
+  min-height: 1.2em;
+}
+.ai-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(201,168,76,0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.ai-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--gold), var(--gold2));
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.15s ease;
+}
+
+/* ── OUTPUT PANEL ── */
+.ai-output-panel {
+  min-height: 420px;
+}
+.ai-output-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  background: var(--bark);
+  border: 2px dashed rgba(201,168,76,0.2);
+  border-radius: 12px;
+  gap: 0.6rem;
+}
+.ai-placeholder-icon { font-size: 3rem; opacity: 0.4; }
+.ai-placeholder-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--dust);
+}
+.ai-placeholder-sub { font-size: 0.78rem; color: var(--dust); opacity: 0.6; }
+.ai-results {
+  display: none;
+  background: var(--bark);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  animation: fadeUp 0.5s ease forwards;
+}
+.ai-results.visible { display: block; }
+
+/* RESULT HEADER */
+.ai-result-header {
+  background: var(--earth);
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+.ai-result-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cream);
+}
+.ai-result-sub {
+  font-size: 0.75rem;
+  color: var(--dust);
+  margin-top: 0.2rem;
+}
+.ai-result-badge {
+  background: var(--gold);
+  color: var(--earth);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.7rem;
+  border-radius: 3px;
+}
+
+/* AI TABS */
+.ai-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  background: var(--earth);
+}
+.ai-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.8rem 0.5rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--dust);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.ai-tab:hover { color: var(--cream); }
+.ai-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.ai-tab-pane { display: none; padding: 1.5rem; }
+.ai-tab-pane.active { display: block; }
+
+/* ── BLUEPRINT ── */
+.blueprint-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+.blueprint-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.blueprint-compass {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--cream);
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.25);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+.blueprint {
+  background: #0d1e35;
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 6px;
+  padding: 1rem;
+  display: grid;
+  gap: 4px;
+  min-height: 260px;
+}
+.blueprint-room {
+  background: rgba(232,200,74,0.07);
+  border: 1.5px solid rgba(201,168,76,0.5);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  position: relative;
+  transition: background 0.2s;
+}
+.blueprint-room:hover { background: rgba(232,200,74,0.14); }
+.blueprint-room-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+}
+.blueprint-room-size {
+  font-size: 0.65rem;
+  color: rgba(201,168,76,0.6);
+  margin-top: 0.2rem;
+  text-align: center;
+}
+.blueprint-room-icon { font-size: 1.1rem; margin-bottom: 0.3rem; }
+.blueprint-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.7rem;
+}
+.blueprint-scale {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.62rem;
+  color: var(--dust);
+}
+.blueprint-scale span { display: inline-block; width: 20px; height: 3px; }
+.blueprint-scale span:nth-child(1) { background: var(--gold); }
+.blueprint-scale span:nth-child(2) { background: rgba(201,168,76,0.4); }
+.blueprint-scale span:nth-child(3) { background: rgba(201,168,76,0.2); }
+.blueprint-note {
+  font-size: 0.6rem;
+  color: var(--dust);
+  opacity: 0.6;
+}
+
+/* ── 3D TOUR ── */
+.tour-card {
+  background: linear-gradient(160deg, #0a1e35 0%, #0d2a4a 100%);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+.tour-bg {
+  position: absolute; inset: 0;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 2rem;
+}
+.tour-building {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  z-index: 2;
+}
+.tour-roof {
+  width: 0; height: 0;
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 45px solid var(--gold);
+  margin-bottom: -1px;
+}
+.tour-walls {
+  background: #1a3a5c;
+  width: 120px; height: 80px;
+  border: 2px solid rgba(201,168,76,0.4);
+  display: flex; align-items: flex-end; justify-content: space-around;
+  padding: 0 6px 0;
+  position: relative;
+}
+.tour-window {
+  width: 18px; height: 18px;
+  background: rgba(232,200,74,0.3);
+  border: 1px solid rgba(201,168,76,0.6);
+  border-radius: 1px;
+  margin-bottom: 22px;
+}
+.tour-door {
+  width: 22px; height: 34px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 2px 2px 0 0;
+  align-self: flex-end;
+}
+.tour-ground {
+  position: absolute; bottom: 1.5rem; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+}
+.tour-trees {
+  position: absolute; bottom: 2rem;
+  display: flex; gap: 8rem;
+  z-index: 1;
+}
+.tour-tree {
+  width: 0; height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 36px solid rgba(30,100,60,0.7);
+}
+.tour-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: rgba(10,14,26,0.5);
+  transition: background 0.2s;
+  gap: 0.4rem;
+}
+.tour-card:hover .tour-overlay { background: rgba(10,14,26,0.65); }
+.tour-play {
+  width: 52px; height: 52px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  color: var(--earth);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.5);
+  transition: transform 0.2s;
+}
+.tour-card:hover .tour-play { transform: scale(1.1); }
+.tour-play-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: 0.06em;
+}
+.tour-play-sub {
+  font-size: 0.68rem;
+  color: var(--gold);
+  font-family: 'Syne', sans-serif;
+  letter-spacing: 0.05em;
+}
+.tour-specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+.tour-spec-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 4px;
+  padding: 0.7rem;
+  text-align: center;
+}
+.tour-spec-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--gold);
+  display: block;
+}
+.tour-spec-label {
+  font-size: 0.65rem;
+  color: var(--dust);
+  font-family: 'Syne', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── COSTS TABLE ── */
+.cost-hero {
+  background: var(--earth);
+  border-radius: 8px;
+  padding: 1.2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(201,168,76,0.2);
+}
+.cost-hero-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dust);
+  margin-bottom: 0.3rem;
+}
+.cost-hero-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+.cost-hero-range {
+  font-size: 0.75rem;
+  color: var(--dust);
+  margin-top: 0.3rem;
+}
+.cost-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+}
+.cost-table thead tr { background: var(--earth); }
+.cost-table th {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dust);
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+.cost-table td {
+  padding: 0.6rem 0.8rem;
+  color: var(--cream);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.cost-table tr:last-child td { border-bottom: none; }
+.cost-table tr:hover td { background: rgba(201,168,76,0.04); }
+.cost-table .cost-total-row td {
+  font-weight: 700;
+  color: var(--gold);
+  border-top: 1px solid rgba(201,168,76,0.2);
+  border-bottom: none;
+}
+.cost-note {
+  font-size: 0.68rem;
+  color: var(--dust);
+  margin-top: 0.8rem;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* ── TIMELINE ── */
+.timeline-summary {
+  text-align: center;
+  padding: 1rem 0 1.5rem;
+}
+.tl-total {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--gold);
+}
+.tl-total-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dust);
+  margin-top: 0.2rem;
+}
+.tl-phases { display: flex; flex-direction: column; gap: 0.6rem; }
+.tl-phase {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  align-items: center;
+  gap: 0.8rem;
+}
+.tl-phase-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--cream);
+  text-align: right;
+}
+.tl-phase-bar-wrap {
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.tl-phase-bar {
+  height: 100%;
+  background: linear-gradient(to right, var(--gold), var(--gold2));
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+.tl-phase-dur {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--dust);
+  white-space: nowrap;
+}
+.tl-note {
+  font-size: 0.68rem;
+  color: var(--dust);
+  text-align: center;
+  margin-top: 1.2rem;
+  opacity: 0.7;
+}
+
+/* ── ACTIONS ── */
+.ai-actions {
+  display: flex;
+  gap: 0.6rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(201,168,76,0.12);
+  background: var(--earth);
+  flex-wrap: wrap;
+}
+.ai-action-save, .ai-action-pdf, .ai-action-restart {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+.ai-action-save {
+  background: var(--gold);
+  color: var(--earth);
+}
+.ai-action-save:hover { background: var(--gold2); }
+.ai-action-pdf {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--cream);
+}
+.ai-action-pdf:hover { background: rgba(255,255,255,0.12); }
+.ai-action-restart {
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.2);
+  color: var(--dust);
+}
+.ai-action-restart:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── LIGHT THEME OVERRIDES FOR AI STUDIO ── */
+body.light-theme #ai-studio { background: #f0f4f8; }
+body.light-theme .ai-input-panel { background: #ffffff; border-color: #e2e8f0; }
+body.light-theme .ai-desc-input { background: #f8f9fa; border-color: #e2e8f0; color: #0a1628; }
+body.light-theme .ai-desc-input::placeholder { color: #a0aec0; }
+body.light-theme .ai-chip { background: rgba(10,22,40,0.05); border-color: #e2e8f0; color: #4a5568; }
+body.light-theme .ai-chip:hover { background: #0a1628; color: #ffffff; border-color: #0a1628; }
+body.light-theme .ai-generate-btn { background: #0a1628; color: #ffffff; }
+body.light-theme .ai-generate-btn:hover { background: #163a5f; }
+body.light-theme .ai-output-placeholder { background: #ffffff; border-color: #e2e8f0; }
+body.light-theme .ai-results { background: #ffffff; border-color: #e2e8f0; }
+body.light-theme .ai-result-header { background: #f8f9fa; border-color: #e2e8f0; }
+body.light-theme .ai-result-title { color: #0a1628; }
+body.light-theme .ai-result-sub { color: #718096; }
+body.light-theme .ai-result-badge { background: #b8860b; }
+body.light-theme .ai-tabs { background: #f8f9fa; border-color: #e2e8f0; }
+body.light-theme .ai-tab { color: #718096; }
+body.light-theme .ai-tab.active { color: #b8860b; border-bottom-color: #b8860b; }
+body.light-theme .blueprint { background: #e8f0fe; border-color: #0a2540; }
+body.light-theme .blueprint-room { background: rgba(10,37,64,0.05); border-color: #0a2540; }
+body.light-theme .blueprint-room:hover { background: rgba(10,37,64,0.1); }
+body.light-theme .blueprint-room-name { color: #0a2540; }
+body.light-theme .blueprint-room-size { color: rgba(10,37,64,0.5); }
+body.light-theme .blueprint-compass { color: #0a1628; background: #e8f0fe; border-color: #0a2540; }
+body.light-theme .cost-hero { background: #f8f9fa; border-color: #e2e8f0; }
+body.light-theme .cost-hero-num { color: #b8860b; }
+body.light-theme .cost-hero-label { color: #718096; }
+body.light-theme .cost-hero-range { color: #718096; }
+body.light-theme .cost-table thead tr { background: #f8f9fa; }
+body.light-theme .cost-table th { color: #718096; border-color: #e2e8f0; }
+body.light-theme .cost-table td { color: #0a1628; border-color: #f0f0f0; }
+body.light-theme .cost-table .cost-total-row td { color: #b8860b; border-color: #e2e8f0; }
+body.light-theme .tl-total { color: #b8860b; }
+body.light-theme .tl-phase-name { color: #0a1628; }
+body.light-theme .tl-phase-bar-wrap { background: #e2e8f0; }
+body.light-theme .ai-actions { background: #f8f9fa; border-color: #e2e8f0; }
+body.light-theme .ai-action-save { background: #0a1628; color: #ffffff; }
+body.light-theme .ai-action-pdf { background: #ffffff; border-color: #e2e8f0; color: #0a1628; }
+body.light-theme .ai-action-restart { border-color: #e2e8f0; color: #718096; }
+body.light-theme .ai-action-restart:hover { border-color: #0a1628; color: #0a1628; }
+body.light-theme .tour-spec-item { background: #f8f9fa; border-color: #e2e8f0; }
+body.light-theme .tour-spec-label { color: #718096; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px) {
+  #ai-studio { padding: 3.5rem 1.2rem; }
+  .ai-studio-wrapper { grid-template-columns: 1fr; }
+  .ai-input-panel { position: static; }
+  .tour-specs { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media(max-width:480px) {
+  .ai-tabs { gap: 0; }
+  .ai-tab { font-size: 0.58rem; padding: 0.7rem 0.3rem; }
+  .tl-phase { grid-template-columns: 90px 1fr auto; }
+  .tour-specs { grid-template-columns: 1fr 1fr; }
+}
+
 </style>
 
 <!-- FAB Button -->
@@ -3105,6 +4408,566 @@ function updateThemeToggleLabel(isLight) {
     updateThemeToggleLabel(true);
   }
 })();
+
+
+// ══════════════════════════════════════
+// AI CONSTRUCTION STUDIO — LIVE SIM
+// ══════════════════════════════════════
+const aiExamples = [
+  "3-bedroom modern home with solar panels and a covered veranda, suitable for Harare climate, budget $55,000 USD",
+  "4-bedroom luxury villa with swimming pool, imported marble floors, double garage and home office, Cape Town, budget $320,000 USD",
+  "2-bedroom affordable budget home, open plan living, small garden, Lusaka, budget $22,000 USD",
+  "5-bedroom estate with guest cottage, home gym, cinema room, staff quarters, Nairobi, budget $480,000 USD",
+  "3-bedroom beach house, coastal design, hurricane-resistant, elevated foundation, Mombasa, budget $85,000 USD",
+  "4-bedroom traditional home, stone walls, pitched roof, separate rooms, Bulawayo, budget $65,000 USD"
+];
+
+function aiChip(i) {
+  document.getElementById('ai-new-input').value = aiExamples[i];
+}
+
+function aiTab(name, btn) {
+  document.querySelectorAll('.ai-out-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ai-tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('ai-tab-' + name).classList.add('active');
+}
+
+function ai3DClick() {
+  alert("Full 3D walkthrough coming in Phase 2.\n\nInvestors: this demonstrates our planned capability — photorealistic virtual tours generated from the same AI description, viewable on any device, shareable with contractors.");
+}
+
+function aiNewGenerate() {
+  const input = document.getElementById('ai-new-input').value.trim();
+  if (!input) { alert('Please describe your home first.'); return; }
+
+  const btn = document.getElementById('ai-new-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Generating...';
+
+  document.getElementById('ai-new-output').classList.remove('visible');
+  document.getElementById('ai-detect-grid').style.display = 'none';
+
+  const loading = document.getElementById('ai-new-loading');
+  loading.classList.add('visible');
+
+  const steps = [
+    'Analyzing your requirements...',
+    'Generating floor plans...',
+    'Calculating material costs...',
+    'Almost ready...'
+  ];
+  let stepIdx = 0;
+  const loadText = document.getElementById('ai-load-text');
+  const progBar = document.getElementById('ai-prog-bar');
+  const progPct = document.getElementById('ai-prog-pct');
+
+  loadText.textContent = steps[0];
+  progBar.style.width = '0%';
+
+  const stepInterval = setInterval(() => {
+    stepIdx = Math.min(stepIdx + 1, steps.length - 1);
+    loadText.style.opacity = '0';
+    setTimeout(() => {
+      loadText.textContent = steps[stepIdx];
+      loadText.style.opacity = '1';
+    }, 200);
+  }, 500);
+
+  let pct = 0;
+  const progInterval = setInterval(() => {
+    pct = Math.min(pct + 2.2, 100);
+    progBar.style.width = pct + '%';
+    progPct.textContent = Math.round(pct) + '%';
+    if (pct >= 100) clearInterval(progInterval);
+  }, 44);
+
+  setTimeout(() => {
+    clearInterval(stepInterval);
+    loading.classList.remove('visible');
+    btn.disabled = false;
+    btn.textContent = '✦ Generate Design';
+    renderAIResult(input);
+  }, 2000);
+}
+
+function renderAIResult(input) {
+  const lc = input.toLowerCase();
+
+  // ── DETECT INPUTS ──
+  // Bedrooms
+  let beds = 3;
+  const bedMatch = lc.match(/(\d+)[- ]bed/) || lc.match(/(\d+) bedroom/);
+  if (bedMatch) beds = Math.max(1, Math.min(7, parseInt(bedMatch[1])));
+
+  // Budget
+  let budget = 52400;
+  const budgetMatch = input.match(/\$([\d,]+)/) || lc.match(/budget[:\s]+([\d,]+)/);
+  if (budgetMatch) {
+    let raw = parseInt(budgetMatch[1].replace(/,/g, ''));
+    if (raw < 500) raw = raw * 1000; // handle "55k" style
+    budget = raw > 0 ? raw : 52400;
+  }
+
+  // Style detection
+  const isLuxury  = lc.includes('luxury') || lc.includes('high-end') || lc.includes('premium') || lc.includes('villa');
+  const isBudget  = lc.includes('budget') || lc.includes('affordable') || lc.includes('starter') || lc.includes('basic');
+  const isCoastal = lc.includes('beach') || lc.includes('coastal') || lc.includes('ocean') || lc.includes('seaside');
+  const isModern  = lc.includes('modern') || lc.includes('contemporary') || lc.includes('minimalist');
+  const isTrad    = lc.includes('traditional') || lc.includes('classic') || lc.includes('stone') || lc.includes('rural');
+
+  // Feature detection
+  const hasSolar   = lc.includes('solar');
+  const hasPool    = lc.includes('pool') || lc.includes('swimming');
+  const hasVeranda = lc.includes('veranda') || lc.includes('patio') || lc.includes('deck') || lc.includes('stoep');
+  const hasGarage  = lc.includes('garage');
+  const hasGym     = lc.includes('gym');
+  const hasOffice  = lc.includes('office');
+  const hasCottage = lc.includes('cottage') || lc.includes('guest');
+  const hasCinema  = lc.includes('cinema') || lc.includes('theater');
+
+  // ── ADJUST BUDGET BY STYLE ──
+  let adjBudget = budget;
+  let styleMult = 1.0;
+  if (isLuxury)       { styleMult = 1.30; }
+  else if (isBudget)  { styleMult = 0.85; }
+  else if (isCoastal) { styleMult = 1.15; }
+  adjBudget = Math.round(budget * styleMult);
+
+  // Style label
+  let styleLabel = '✦ Standard Design · Standard Finish';
+  if (isLuxury)       styleLabel = '✦ Luxury Design · Premium Finish · Imported Fixtures';
+  else if (isBudget)  styleLabel = '✦ Budget Design · Cost-Effective Finish';
+  else if (isCoastal) styleLabel = '✦ Coastal Design · Hurricane-Resistant · Elevated Foundation';
+  else if (isModern)  styleLabel = '✦ Modern Design · Flat Roof · Open Plan · Large Windows';
+  else if (isTrad)    styleLabel = '✦ Traditional Design · Pitched Roof · Local Stone';
+
+  // ── FLOOR PLAN ROOMS ──
+  const masterSize = isLuxury ? `${18+beds}'×${16+beds}'` : `${14+beds}'×${12+beds}'`;
+  const bed2Size   = `${10+Math.floor(beds/2)}'×10'`;
+  const livingSize = isLuxury ? `32'×24'` : isBudget ? `16'×14'` : `${18+beds}'×16'`;
+  const kitchenSz  = beds >= 4 ? `16'×14'` : `${12+beds}'×10'`;
+
+  const rooms = [
+    { name: isLuxury ? 'Master Suite' : 'Master Bedroom', size: masterSize, cls: 'master' },
+  ];
+  for (let i = 1; i < beds; i++) {
+    rooms.push({ name: `Bedroom ${i + 1}`, size: bed2Size, cls: '' });
+  }
+  rooms.push({ name: 'Living / Dining', size: livingSize, cls: 'living' });
+  rooms.push({ name: 'Kitchen', size: kitchenSz, cls: '' });
+  rooms.push({ name: `Bathroom${beds > 2 ? 's (' + Math.ceil(beds/2) + ')' : ''}`, size: "8'×6'", cls: '' });
+  if (hasVeranda) rooms.push({ name: 'Covered Veranda', size: "20'×10'", cls: '' });
+  if (hasOffice)  rooms.push({ name: 'Home Office', size: "12'×10'", cls: '' });
+  if (hasGarage)  rooms.push({ name: `Garage`, size: beds >= 4 ? "22'×20'" : "14'×20'", cls: '' });
+  if (hasGym)     rooms.push({ name: 'Home Gym', size: "16'×12'", cls: '' });
+  if (hasCottage) rooms.push({ name: 'Guest Cottage', size: "18'×14'", cls: '' });
+  if (hasCinema)  rooms.push({ name: 'Cinema Room', size: "20'×16'", cls: '' });
+  if (hasPool)    rooms.push({ name: 'Swimming Pool', size: "32'×16'", cls: '' });
+
+  document.getElementById('ai-fp-grid').innerHTML = rooms.map(r =>
+    `<div class="ai-fp-room ${r.cls}">
+      <div class="ai-fp-room-name">${r.name}</div>
+      <div class="ai-fp-room-size">${r.size}</div>
+    </div>`
+  ).join('');
+
+  // Feature badges
+  const feats = [];
+  if (hasSolar)   feats.push('☀️ Solar');
+  if (hasPool)    feats.push('🏊 Pool');
+  if (hasVeranda) feats.push('🌿 Veranda');
+  if (hasGarage)  feats.push('🚗 Garage');
+  if (isCoastal)  feats.push('🌊 Elevated Foundation');
+  if (isLuxury)   feats.push('💎 Premium Finishes');
+  if (isModern)   feats.push('🪟 Flat Roof');
+  if (isTrad)     feats.push('🪨 Stone Walls');
+  document.getElementById('ai-fp-feats').innerHTML = feats.map(f =>
+    `<span class="ai-fp-feat">${f}</span>`).join('');
+
+  document.getElementById('ai-fp-title').textContent =
+    `Floor Plan · ${beds} Bed${beds > 1 ? 's' : ''} · Ground Level`;
+
+  // ── COST BREAKDOWN ──
+  let cementBags  = Math.round(adjBudget * 0.028);
+  let steelTons   = (adjBudget / 10000 * 0.5).toFixed(1);
+  let timberCost  = Math.round(adjBudget * 0.062);
+  let roofingCost = Math.round(adjBudget * 0.054);
+  let finishPct   = isLuxury ? 0.14 : isBudget ? 0.06 : 0.085;
+  let finishCost  = Math.round(adjBudget * finishPct);
+  let solarCost   = hasSolar ? Math.round(adjBudget * 0.042) : 0;
+  let poolCost    = hasPool  ? Math.round(adjBudget * 0.065) : 0;
+  let labourCost  = Math.round(adjBudget * 0.28);
+  let totalCalc   = Math.round((Math.round(adjBudget * 0.028) * 7.20) +
+    (parseFloat(steelTons) * 850) + timberCost + roofingCost +
+    finishCost + solarCost + poolCost + labourCost);
+  let displayCost = Math.round(totalCalc * (isLuxury ? 1.12 : isBudget ? 0.95 : 1.0));
+  let v = Math.round(displayCost * 0.04);
+
+  document.getElementById('ai-cost-total').textContent =
+    '$' + (displayCost - v).toLocaleString() + ' – $' + (displayCost + v).toLocaleString();
+  document.getElementById('ai-style-badge').textContent = styleLabel;
+
+  const matRows = [
+    { name: isLuxury ? 'Premium Cement (50kg)' : 'Portland Cement (50kg)', qty: cementBags + ' bags',  cost: Math.round(cementBags * 7.20) },
+    { name: isLuxury ? 'High-Grade Steel Rebar' : 'Steel Rebar',           qty: steelTons + ' tonnes', cost: Math.round(parseFloat(steelTons) * 850) },
+    { name: 'Structural Timber',                                            qty: 'Frames & trusses',    cost: timberCost },
+    { name: isCoastal ? 'Marine-Grade Roofing' : isTrad ? 'Clay Roof Tiles' : 'IBR Roofing',
+                                                                            qty: 'Full cover',          cost: roofingCost },
+    { name: isLuxury ? 'Marble & Imported Finishing' : 'Plaster & Finishing', qty: 'Paint, tiles, plaster', cost: finishCost },
+    ...(hasSolar ? [{ name: 'Solar Panel System', qty: '6kW + battery', cost: solarCost }] : []),
+    ...(hasPool  ? [{ name: 'Swimming Pool', qty: 'Concrete shell + fittings', cost: poolCost }] : []),
+    { name: 'Labour & Site Management', qty: 'Skilled + unskilled', cost: labourCost },
+  ];
+
+  document.getElementById('ai-mat-tbody').innerHTML = matRows.map(r =>
+    `<tr>
+      <td>${r.name}</td>
+      <td class="ai-mat-qty">${r.qty}</td>
+      <td class="ai-mat-cost">$${r.cost.toLocaleString()}</td>
+    </tr>`
+  ).join('');
+
+  // Timeline
+  const baseMo = beds <= 2 ? 5 : beds <= 3 ? 7 : beds <= 4 ? 10 : 14;
+  const extraMo = (hasPool ? 2 : 0) + (hasSolar ? 1 : 0) + (hasCottage ? 2 : 0);
+  const totalMo = baseMo + extraMo;
+  const addIf = isBudget ? ' · Fast-track possible' : isLuxury ? ' · Premium build quality' : '';
+  document.getElementById('ai-timeline-val').textContent =
+    `${totalMo - 1}–${totalMo + 1} months${addIf}`;
+
+  // Detected info chips
+  document.getElementById('ai-det-beds').textContent = beds + ' Bedrooms';
+  document.getElementById('ai-det-budget').textContent = '$' + budget.toLocaleString();
+  document.getElementById('ai-det-style').textContent =
+    isLuxury ? 'Luxury' : isBudget ? 'Budget' : isCoastal ? 'Coastal' : isModern ? 'Modern' : isTrad ? 'Traditional' : 'Standard';
+  const featList = [hasSolar&&'Solar', hasPool&&'Pool', hasVeranda&&'Veranda', hasGarage&&'Garage'].filter(Boolean);
+  document.getElementById('ai-det-feats').textContent = featList.length ? featList.join(', ') : 'Standard';
+  document.getElementById('ai-detect-grid').style.display = 'grid';
+
+  // Show output, reset to floorplan tab
+  document.getElementById('ai-new-output').classList.add('visible');
+  document.querySelectorAll('.ai-out-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ai-tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelector('.ai-out-tab').classList.add('active');
+  document.getElementById('ai-tab-floorplan').classList.add('active');
+  document.getElementById('ai-new-output').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+
+// ══════════════════════════════════════
+// AI CONSTRUCTION STUDIO — FULL LOGIC
+// ══════════════════════════════════════
+
+const AI_EXAMPLES = [
+  "3-bedroom modern home with solar panels and a covered veranda, suitable for Harare climate, budget $55,000 USD",
+  "4-bedroom luxury villa with swimming pool, home theatre, and imported marble finishes, Cape Town, budget $280,000",
+  "2-bedroom affordable starter home with open plan living and small garden, Lusaka, budget $28,000",
+  "5-bedroom coastal estate with hurricane-resistant walls, elevated foundation, ocean views, Mombasa, budget $450,000",
+  "3-bedroom traditional home with pitched roof, local stone, separate kitchen, and large yard, Accra, budget $40,000"
+];
+
+function setDesc(i) {
+  document.getElementById('ai-desc').value = AI_EXAMPLES[i];
+}
+
+function switchAITab(name, btn) {
+  document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ai-tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function resetAI() {
+  document.getElementById('ai-results').classList.remove('visible');
+  document.getElementById('ai-placeholder').style.display = 'flex';
+  document.getElementById('ai-desc').value = '';
+  document.getElementById('ai-desc').focus();
+}
+
+// ── EXTRACT DATA FROM USER INPUT ──
+function parseInput(text) {
+  const lc = text.toLowerCase();
+
+  // Bedrooms
+  let beds = 3;
+  const bedsMatch = lc.match(/(\d+)[\s-]*bed/);
+  if (bedsMatch) beds = Math.min(8, Math.max(1, parseInt(bedsMatch[1])));
+
+  // Budget
+  let budget = 0;
+  const budgetMatch = text.match(/\$([\d,]+(?:\.\d+)?)[Kk]?/);
+  if (budgetMatch) {
+    let raw = parseFloat(budgetMatch[1].replace(/,/g, ''));
+    if (lc.includes('k') && raw < 1000) raw *= 1000;
+    if (text.match(/\$[\d,]+[Kk]/)) raw *= 1000;
+    budget = raw;
+  }
+  if (!budget || budget < 5000) {
+    if (beds <= 2) budget = 28000;
+    else if (beds <= 3) budget = 52000;
+    else if (beds <= 4) budget = 120000;
+    else budget = 250000;
+  }
+
+  // Style
+  const isLuxury    = /luxury|high.end|premium|mansion|marble|imported/.test(lc);
+  const isBudget    = /affordable|budget|low.cost|cheap|starter|basic/.test(lc);
+  const isCoastal   = /beach|coast|ocean|sea|marine|waterfront/.test(lc);
+  const isModern    = /modern|contemporary|minimalist|flat.roof|open.plan/.test(lc);
+  const isTraditional = /traditional|classic|local.stone|pitched|separate/.test(lc);
+
+  // Features
+  const hasPool    = /pool|swimming/.test(lc);
+  const hasSolar   = /solar/.test(lc);
+  const hasVeranda = /veranda|patio|deck|stoep/.test(lc);
+  const hasGarage  = /garage|carport/.test(lc);
+  const hasGym     = /gym|fitness/.test(lc);
+  const hasOffice  = /office|study|library/.test(lc);
+  const hasTheatre = /theatre|theater|cinema/.test(lc);
+
+  // Adjust budget for style
+  let adjBudget = budget;
+  if (isLuxury)  adjBudget = Math.max(adjBudget, adjBudget * 1.3);
+  if (isBudget)  adjBudget = adjBudget * 0.85;
+  if (isCoastal) adjBudget = adjBudget * 1.15;
+
+  // Location
+  let location = 'Harare, Zimbabwe';
+  const cities = { harare:'Harare, Zimbabwe', bulawayo:'Bulawayo, Zimbabwe', lusaka:'Lusaka, Zambia',
+    nairobi:'Nairobi, Kenya', mombasa:'Mombasa, Kenya', 'cape town':'Cape Town, South Africa',
+    johannesburg:'Johannesburg, South Africa', accra:'Accra, Ghana', lagos:'Lagos, Nigeria',
+    cairo:'Cairo, Egypt', dar:'Dar es Salaam, Tanzania', kampala:'Kampala, Uganda' };
+  for (const [key, val] of Object.entries(cities)) {
+    if (lc.includes(key)) { location = val; break; }
+  }
+
+  return { beds, budget: adjBudget, rawBudget: budget, isLuxury, isBudget, isCoastal,
+           isModern, isTraditional, hasPool, hasSolar, hasVeranda, hasGarage,
+           hasGym, hasOffice, hasTheatre, location, text };
+}
+
+// ── GENERATE ROOMS ──
+function generateRooms(p) {
+  const rooms = [];
+  const masterSize = p.isLuxury ? `${18+p.beds}'x${16+p.beds}'` : `${14+p.beds}'x${12+p.beds}'`;
+  rooms.push({ icon: '🛏️', name: 'Master Bedroom', size: masterSize, span: 'wide' });
+  for (let i = 1; i < p.beds; i++) {
+    rooms.push({ icon: '🛏️', name: `Bedroom ${i+1}`, size: `${10+i}'x10'`, span: '' });
+  }
+  rooms.push({ icon: '🛋️', name: 'Living Room', size: p.isLuxury ? "28'x22'" : "18'x16'", span: 'wide' });
+  rooms.push({ icon: '🍳', name: 'Kitchen', size: p.beds >= 4 ? "16'x14'" : "14'x12'", span: '' });
+  rooms.push({ icon: '🚿', name: `Bathroom${p.beds > 2 ? 's ('+Math.ceil(p.beds/1.8)+')' : ''}`, size: "8'x6'", span: '' });
+  if (p.hasVeranda) rooms.push({ icon: '🌿', name: 'Veranda', size: "20'x10'", span: 'wide' });
+  if (p.hasPool)    rooms.push({ icon: '🏊', name: 'Swimming Pool', size: "32'x16'", span: 'wide' });
+  if (p.hasGarage)  rooms.push({ icon: '🚗', name: 'Garage', size: p.beds >= 4 ? "22'x20'" : "14'x20'", span: '' });
+  if (p.hasOffice)  rooms.push({ icon: '💼', name: 'Home Office', size: "12'x10'", span: '' });
+  if (p.hasGym)     rooms.push({ icon: '🏋️', name: 'Home Gym', size: "16'x14'", span: '' });
+  if (p.hasTheatre) rooms.push({ icon: '🎬', name: 'Home Theatre', size: "20'x14'", span: '' });
+  return rooms;
+}
+
+// ── GENERATE COST BREAKDOWN ──
+function generateCosts(p) {
+  const b = p.budget;
+  let items = [];
+
+  if (p.isLuxury) {
+    items = [
+      { mat: 'Portland Cement', qty: Math.round(b*0.026)+' bags', unit: '$8.50', total: Math.round(b*0.026*8.5) },
+      { mat: 'Steel / Rebar', qty: (b/8500).toFixed(1)+' tonnes', unit: '$900/t', total: Math.round(b/8500*900) },
+      { mat: 'Marble & Premium Tiles', qty: Math.round(b*0.0018)+" m²", unit: '$85/m²', total: Math.round(b*0.0018*85) },
+      { mat: 'Timber & Joinery', qty: 'Full spec', unit: '—', total: Math.round(b*0.07) },
+      { mat: 'Imported Roofing', qty: 'Full cover', unit: '—', total: Math.round(b*0.065) },
+      { mat: 'Premium Finishing', qty: 'Plaster, paint, décor', unit: '—', total: Math.round(b*0.11) },
+      { mat: 'Labour & Management', qty: 'Skilled crew', unit: '—', total: Math.round(b*0.25) },
+    ];
+  } else if (p.isBudget) {
+    items = [
+      { mat: 'Portland Cement', qty: Math.round(b*0.032)+' bags', unit: '$7.20', total: Math.round(b*0.032*7.2) },
+      { mat: 'Steel / Rebar', qty: (b/12000).toFixed(1)+' tonnes', unit: '$850/t', total: Math.round(b/12000*850) },
+      { mat: 'Timber (local)', qty: 'Frames & doors', unit: '—', total: Math.round(b*0.055) },
+      { mat: 'IBR Roofing Sheets', qty: 'Full cover', unit: '$12.40/sh', total: Math.round(b*0.048) },
+      { mat: 'Basic Finishing', qty: 'Plaster & paint', unit: '—', total: Math.round(b*0.065) },
+      { mat: 'Labour', qty: 'Local crew', unit: '—', total: Math.round(b*0.28) },
+    ];
+  } else {
+    items = [
+      { mat: 'Portland Cement', qty: Math.round(b*0.028)+' bags', unit: '$7.20', total: Math.round(b*0.028*7.2) },
+      { mat: 'Steel / Rebar', qty: (b/10000).toFixed(1)+' tonnes', unit: '$850/t', total: Math.round(b/10000*850) },
+      { mat: 'Structural Timber', qty: 'Frames & trusses', unit: '—', total: Math.round(b*0.062) },
+      { mat: 'Roofing (IBR/Tiles)', qty: 'Full cover', unit: '—', total: Math.round(b*0.054) },
+      { mat: 'Finishing & Paint', qty: 'Plaster, tiles, paint', unit: '—', total: Math.round(b*0.085) },
+      { mat: 'Labour & Supervision', qty: 'Skilled crew', unit: '—', total: Math.round(b*0.28) },
+    ];
+  }
+  if (p.hasSolar)   items.push({ mat: 'Solar System', qty: '6kW + battery', unit: '—', total: Math.round(b*0.042) });
+  if (p.hasPool)    items.push({ mat: 'Swimming Pool', qty: 'Concrete + fittings', unit: '—', total: Math.round(b*0.065) });
+  if (p.isCoastal)  items.push({ mat: 'Hurricane-Resistant Structure', qty: 'Reinforced walls', unit: '—', total: Math.round(b*0.05) });
+
+  const itemTotal = items.reduce((s, i) => s + i.total, 0);
+  return { items, total: Math.round(itemTotal * 1.05) };
+}
+
+// ── GENERATE TIMELINE ──
+function generateTimeline(p) {
+  const phases = [
+    { name: 'Site Prep & Foundation', months: p.isCoastal ? '2–3 mo' : '1–2 mo', pct: 90 },
+    { name: 'Structural Walls', months: p.beds >= 4 ? '2–3 mo' : '1–2 mo', pct: 100 },
+    { name: 'Roofing & Frame', months: '1–2 mo', pct: 75 },
+    { name: 'Plumbing & Electrical', months: '1–2 mo', pct: 65 },
+    { name: 'Plastering & Finishing', months: '1–2 mo', pct: 55 },
+    ...(p.hasSolar ? [{ name: 'Solar Installation', months: '2–4 wks', pct: 30 }] : []),
+    ...(p.hasPool  ? [{ name: 'Pool Construction', months: '1–2 mo', pct: 40 }] : []),
+  ];
+  const baseMin = p.isBudget ? 5 : p.isLuxury ? 12 : 7;
+  const baseMax = p.isBudget ? 7 : p.isLuxury ? 16 : 9;
+  const extraMin = (p.hasPool ? 1 : 0) + (p.hasSolar ? 0 : 0);
+  const extraMax = (p.hasPool ? 2 : 0) + (p.hasSolar ? 1 : 0);
+  return { phases, totalMin: baseMin + extraMin, totalMax: baseMax + extraMax };
+}
+
+// ── LOADING SEQUENCE ──
+function runLoader(onComplete) {
+  const loader = document.getElementById('ai-loader');
+  const pct    = document.getElementById('ai-loader-pct');
+  const msg    = document.getElementById('ai-loader-msg');
+  const fill   = document.getElementById('ai-progress-fill');
+  const btn    = document.getElementById('ai-gen-btn');
+
+  const messages = [
+    'Analyzing your requirements...',
+    'Generating floor plans...',
+    'Calculating material costs...',
+    'Compiling construction timeline...',
+    'Almost ready...'
+  ];
+
+  loader.classList.add('visible');
+  btn.disabled = true;
+  fill.style.width = '0%';
+
+  let progress = 0;
+  let msgIdx   = 0;
+  msg.textContent = messages[0];
+
+  const interval = setInterval(() => {
+    progress += 2.2;
+    if (progress > 100) progress = 100;
+    fill.style.width = progress + '%';
+    pct.textContent  = Math.round(progress) + '%';
+
+    const newMsgIdx = Math.min(Math.floor(progress / 22), messages.length - 1);
+    if (newMsgIdx !== msgIdx) { msgIdx = newMsgIdx; msg.textContent = messages[msgIdx]; }
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        loader.classList.remove('visible');
+        fill.style.width = '0%';
+        btn.disabled = false;
+        onComplete();
+      }, 300);
+    }
+  }, 44);
+}
+
+// ── RENDER RESULTS ──
+function renderAIResults(p) {
+  const costs   = generateCosts(p);
+  const rooms   = generateRooms(p);
+  const timeline = generateTimeline(p);
+
+  // Title
+  let styleLabel = p.isLuxury ? 'Luxury' : p.isBudget ? 'Affordable' : p.isCoastal ? 'Coastal' : p.isModern ? 'Modern' : p.isTraditional ? 'Traditional' : '';
+  document.getElementById('ai-result-title').textContent = `${p.beds}-Bedroom${styleLabel?' '+styleLabel:''} Home · ${p.location}`;
+  document.getElementById('ai-result-sub').textContent   = `Est. $${(costs.total*0.95).toLocaleString()} – $${(costs.total*1.05).toLocaleString()} USD · TAP AI Generated`;
+
+  // FLOOR PLAN
+  const blueprintEl = document.getElementById('blueprint-grid');
+  const colCount = Math.min(rooms.length, p.beds <= 2 ? 2 : p.beds <= 4 ? 3 : 4);
+  blueprintEl.style.gridTemplateColumns = `repeat(${colCount}, 1fr)`;
+
+  blueprintEl.innerHTML = rooms.map(r => `
+    <div class="blueprint-room${r.span === 'wide' ? '" style="grid-column:span '+Math.min(2,colCount)+';' : '"'}>
+      <div class="blueprint-room-icon">${r.icon}</div>
+      <div class="blueprint-room-name">${r.name}</div>
+      <div class="blueprint-room-size">${r.size}</div>
+    </div>`).join('');
+
+  const styleNotes = [];
+  if (p.isModern) styleNotes.push('Flat roof · Open plan');
+  if (p.isTraditional) styleNotes.push('Pitched roof · Separate rooms');
+  if (p.isCoastal) styleNotes.push('Elevated foundation · Hurricane-resistant');
+  if (p.isLuxury) styleNotes.push('Premium finishes · Imported fixtures');
+  document.getElementById('blueprint-note').textContent = styleNotes.length ? styleNotes.join(' · ') : 'TAP AI Generated · For Illustration Only';
+
+  // 3D TOUR SPECS
+  const totalArea = rooms.reduce((s, r) => {
+    const m = r.size.match(/(\d+)'x(\d+)'/);
+    return s + (m ? parseInt(m[1]) * parseInt(m[2]) : 0);
+  }, 0);
+  document.getElementById('tour-specs').innerHTML = [
+    { val: totalArea + " ft²", label: "Total Area" },
+    { val: p.beds + " Bed", label: "Bedrooms" },
+    { val: Math.ceil(p.beds/1.8) + " Bath", label: "Bathrooms" },
+    { val: p.hasSolar ? "Solar" : "Grid", label: "Energy" },
+    { val: p.isLuxury ? "Premium" : p.isBudget ? "Standard" : "Modern", label: "Finish" },
+    { val: timeline.totalMin + "–" + timeline.totalMax + " mo", label: "Timeline" },
+  ].map(s => `<div class="tour-spec-item"><span class="tour-spec-val">${s.val}</span><span class="tour-spec-label">${s.label}</span></div>`).join('');
+
+  // COSTS
+  document.getElementById('cost-hero-num').textContent = '$' + costs.total.toLocaleString();
+  document.getElementById('cost-hero-range').textContent = `Range: $${Math.round(costs.total*0.95).toLocaleString()} – $${Math.round(costs.total*1.05).toLocaleString()} USD`;
+  document.getElementById('cost-note').textContent = `Prices based on current TAP Materials Marketplace rates · ${p.location}`;
+  document.getElementById('cost-table-body').innerHTML =
+    costs.items.map(i => `<tr><td>${i.mat}</td><td>${i.qty}</td><td>${i.unit}</td><td>$${i.total.toLocaleString()}</td></tr>`).join('') +
+    `<tr class="cost-total-row"><td colspan="3"><strong>Total Estimated Cost</strong></td><td><strong>$${costs.total.toLocaleString()}</strong></td></tr>`;
+
+  // TIMELINE
+  document.getElementById('tl-total').textContent = `${timeline.totalMin}–${timeline.totalMax} Months`;
+  document.getElementById('tl-phases').innerHTML = timeline.phases.map(ph => `
+    <div class="tl-phase">
+      <div class="tl-phase-name">${ph.name}</div>
+      <div class="tl-phase-bar-wrap"><div class="tl-phase-bar" style="width:0%" data-w="${ph.pct}"></div></div>
+      <div class="tl-phase-dur">${ph.months}</div>
+    </div>`).join('');
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.tl-phase-bar').forEach(b => { b.style.width = b.dataset.w + '%'; });
+  }, 100);
+
+  // Show results
+  document.getElementById('ai-placeholder').style.display = 'none';
+  const resultsEl = document.getElementById('ai-results');
+  resultsEl.classList.add('visible');
+  resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Reset to floor plan tab
+  document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ai-tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelector('.ai-tab').classList.add('active');
+  document.getElementById('tab-floorplan').classList.add('active');
+}
+
+// ── MAIN FUNCTION ──
+function runAIStudio() {
+  const input = document.getElementById('ai-desc').value.trim();
+  if (!input) {
+    document.getElementById('ai-desc').focus();
+    document.getElementById('ai-desc').style.borderColor = '#ef4444';
+    setTimeout(() => { document.getElementById('ai-desc').style.borderColor = ''; }, 1500);
+    return;
+  }
+  const parsed = parseInput(input);
+  runLoader(() => renderAIResults(parsed));
+}
+
+// Allow Enter+Ctrl to submit
+document.getElementById('ai-desc') && document.getElementById('ai-desc').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.ctrlKey) runAIStudio();
+});
 
 </script>
 
