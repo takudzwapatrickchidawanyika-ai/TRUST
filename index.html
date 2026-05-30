@@ -4273,6 +4273,416 @@ body.light-theme .tour-spec-label { color: #718096; }
   .tour-specs { grid-template-columns: 1fr 1fr; }
 }
 
+
+/* ══ SINGLE BLUE LIGHT THEME OVERRIDE ══
+   Applied when body.light-theme is active
+   All backgrounds → single shade #0f233c
+   Text → white / cream
+   Borders → rgba(255,255,255,0.1)
+═══════════════════════════════════════ */
+
+/* Global body */
+body.light-theme {
+  background: #0f233c !important;
+  color: #f0e8d0 !important;
+}
+
+/* Nav */
+body.light-theme nav {
+  background: rgba(15,35,60,0.97) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3) !important;
+}
+body.light-theme .nav-links a {
+  color: rgba(255,255,255,0.7) !important;
+}
+body.light-theme .nav-links a:hover {
+  color: var(--gold) !important;
+  background: rgba(212,175,55,0.1) !important;
+  opacity: 1 !important;
+}
+body.light-theme .nav-cta {
+  background: var(--gold) !important;
+  color: #0f233c !important;
+}
+body.light-theme .theme-toggle {
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.2) !important;
+}
+body.light-theme .theme-toggle:hover {
+  background: rgba(255,255,255,0.15) !important;
+  border-color: var(--gold) !important;
+}
+body.light-theme .theme-icon-light {
+  background: var(--gold) !important;
+}
+body.light-theme .theme-icon-dark {
+  opacity: 0.35 !important;
+}
+
+/* ALL sections → single blue */
+body.light-theme section,
+body.light-theme .section,
+body.light-theme #features,
+body.light-theme #ai-studio,
+body.light-theme #tenders,
+body.light-theme #materials,
+body.light-theme #municipal,
+body.light-theme #cta,
+body.light-theme #blockchain {
+  background: #0f233c !important;
+}
+
+/* Section titles & text */
+body.light-theme .section-title,
+body.light-theme h1, body.light-theme h2, body.light-theme h3 {
+  color: #f0e8d0 !important;
+}
+body.light-theme .section-sub,
+body.light-theme p {
+  color: rgba(255,255,255,0.65) !important;
+}
+body.light-theme .section-eyebrow {
+  color: var(--gold) !important;
+}
+body.light-theme .section-eyebrow::before {
+  background: var(--gold) !important;
+}
+
+/* Hero — keep dark gradient, same family */
+body.light-theme .hero {
+  background: linear-gradient(160deg, #0a1a2e 0%, #0f233c 50%, #132d4a 100%) !important;
+}
+
+/* Stats bar — slightly darker */
+body.light-theme .stats-band {
+  background: #0a1a2e !important;
+  border-bottom: 3px solid var(--gold) !important;
+  border-top: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+/* Feature cards */
+body.light-theme .features-grid {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+}
+body.light-theme .feature-card {
+  background: #0f233c !important;
+  border: none !important;
+}
+body.light-theme .feature-card:hover {
+  background: rgba(255,255,255,0.05) !important;
+}
+body.light-theme .feature-title {
+  color: #f0e8d0 !important;
+}
+body.light-theme .feature-desc {
+  color: rgba(255,255,255,0.6) !important;
+}
+body.light-theme .feature-num {
+  color: rgba(255,255,255,0.05) !important;
+}
+
+/* Hero cards */
+body.light-theme .hcard {
+  background: rgba(255,255,255,0.07) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+}
+body.light-theme .hcard h3 {
+  color: #f0e8d0 !important;
+}
+body.light-theme .hcard p {
+  color: rgba(255,255,255,0.5) !important;
+}
+
+/* AI Studio section */
+body.light-theme .ai-demo {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+body.light-theme .ai-demo-bar {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+body.light-theme .ai-prompt {
+  background: rgba(255,255,255,0.04) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: rgba(255,255,255,0.75) !important;
+}
+body.light-theme .ai-output-item {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+body.light-theme .ai-output-item .value {
+  color: #f0e8d0 !important;
+}
+body.light-theme .ai-price-callout {
+  background: var(--gold) !important;
+}
+
+/* Tenders */
+body.light-theme .tender-item {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+body.light-theme .tender-item:hover {
+  border-color: rgba(212,175,55,0.5) !important;
+  background: rgba(255,255,255,0.09) !important;
+}
+body.light-theme .tender-title {
+  color: #f0e8d0 !important;
+}
+body.light-theme .tender-country-name {
+  color: rgba(255,255,255,0.5) !important;
+}
+body.light-theme .tender-meta {
+  color: rgba(255,255,255,0.45) !important;
+}
+body.light-theme .tender-info h3 {
+  color: #f0e8d0 !important;
+}
+body.light-theme .tender-info p {
+  color: rgba(255,255,255,0.6) !important;
+}
+body.light-theme .t-stat span {
+  color: rgba(255,255,255,0.4) !important;
+}
+
+/* Materials */
+body.light-theme .ticker-wrap {
+  background: rgba(255,255,255,0.04) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+body.light-theme .ticker-bar {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+body.light-theme .price-table thead tr {
+  background: rgba(255,255,255,0.08) !important;
+}
+body.light-theme .price-table th {
+  color: rgba(255,255,255,0.5) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+body.light-theme .price-table td {
+  color: #f0e8d0 !important;
+  border-color: rgba(255,255,255,0.05) !important;
+}
+body.light-theme .price-table tr:hover td {
+  background: rgba(255,255,255,0.04) !important;
+}
+body.light-theme .price-val {
+  color: #f0e8d0 !important;
+}
+body.light-theme .shop-badge {
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.75) !important;
+}
+body.light-theme .cat-btn {
+  background: rgba(255,255,255,0.07) !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: rgba(255,255,255,0.65) !important;
+}
+body.light-theme .cat-btn.active,
+body.light-theme .cat-btn:hover {
+  background: var(--gold) !important;
+  border-color: var(--gold) !important;
+  color: #0f233c !important;
+}
+body.light-theme .shop-card {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+body.light-theme .shop-name {
+  color: #f0e8d0 !important;
+}
+body.light-theme .shop-location {
+  color: rgba(255,255,255,0.45) !important;
+}
+body.light-theme .shop-stat {
+  color: rgba(255,255,255,0.4) !important;
+}
+body.light-theme .shop-stat strong {
+  color: var(--gold) !important;
+}
+body.light-theme .materials-cta-box {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+body.light-theme .materials-cta-box h3 {
+  color: #f0e8d0 !important;
+}
+body.light-theme .materials-cta-box p {
+  color: rgba(255,255,255,0.55) !important;
+}
+body.light-theme .p-count strong {
+  color: #f0e8d0 !important;
+}
+body.light-theme .p-count span {
+  color: rgba(255,255,255,0.4) !important;
+}
+
+/* CTA section */
+body.light-theme .cta-tabs {
+  border-color: rgba(255,255,255,0.15) !important;
+}
+body.light-theme .tab-btn {
+  color: rgba(255,255,255,0.45) !important;
+  border-right-color: rgba(255,255,255,0.1) !important;
+}
+body.light-theme .tab-btn:not(.active):hover {
+  color: rgba(255,255,255,0.85) !important;
+}
+body.light-theme .tab-btn.active {
+  background: var(--gold) !important;
+  color: #0f233c !important;
+}
+body.light-theme .form-wrap input,
+body.light-theme .form-wrap select,
+body.light-theme .form-wrap textarea {
+  background: rgba(255,255,255,0.07) !important;
+  border-color: rgba(255,255,255,0.15) !important;
+  color: #f0e8d0 !important;
+}
+body.light-theme .form-wrap input:focus,
+body.light-theme .form-wrap select:focus,
+body.light-theme .form-wrap textarea:focus {
+  border-color: var(--gold) !important;
+}
+body.light-theme .form-wrap input::placeholder,
+body.light-theme .form-wrap textarea::placeholder {
+  color: rgba(255,255,255,0.3) !important;
+}
+body.light-theme .form-wrap select option {
+  background: #0f233c !important;
+  color: #f0e8d0 !important;
+}
+
+/* Buttons */
+body.light-theme .btn-primary {
+  background: var(--gold) !important;
+  color: #0f233c !important;
+}
+body.light-theme .btn-primary:hover {
+  background: var(--gold2) !important;
+}
+body.light-theme .btn-secondary {
+  border-color: rgba(255,255,255,0.25) !important;
+  color: rgba(255,255,255,0.85) !important;
+}
+body.light-theme .btn-secondary:hover {
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+}
+
+/* Footer */
+body.light-theme footer {
+  background: #0a1a2e !important;
+  border-top: 1px solid rgba(255,255,255,0.06) !important;
+}
+body.light-theme .footer-brand p {
+  color: rgba(255,255,255,0.35) !important;
+}
+body.light-theme .footer-col ul li a {
+  color: rgba(255,255,255,0.35) !important;
+}
+body.light-theme .footer-col ul li a:hover {
+  color: var(--gold) !important;
+}
+body.light-theme .footer-bottom p {
+  color: rgba(255,255,255,0.2) !important;
+}
+
+/* FAQ Panel */
+body.light-theme .faq-panel {
+  background: #0f233c !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+body.light-theme .faq-panel-header {
+  background: #0a1a2e !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+body.light-theme .faq-panel-title {
+  color: #f0e8d0 !important;
+}
+body.light-theme .faq-close-btn {
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.15) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+body.light-theme .faq-close-btn:hover {
+  background: var(--gold) !important;
+  color: #0f233c !important;
+}
+body.light-theme .faq-search-input {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.15) !important;
+  color: #f0e8d0 !important;
+}
+body.light-theme .faq-search-input::placeholder {
+  color: rgba(255,255,255,0.35) !important;
+}
+body.light-theme .faq-search-input:focus {
+  border-color: var(--gold) !important;
+}
+body.light-theme .faq-count-bar {
+  color: rgba(255,255,255,0.4) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+body.light-theme .faq-acc-item {
+  border-color: rgba(255,255,255,0.07) !important;
+}
+body.light-theme .faq-acc-q:hover {
+  background: rgba(255,255,255,0.04) !important;
+}
+body.light-theme .faq-acc-item.open .faq-acc-q {
+  background: rgba(212,175,55,0.08) !important;
+}
+body.light-theme .faq-acc-q-text {
+  color: rgba(255,255,255,0.85) !important;
+}
+body.light-theme .faq-acc-item.open .faq-acc-q-text {
+  color: var(--gold) !important;
+}
+body.light-theme .faq-acc-icon {
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.15) !important;
+  color: rgba(255,255,255,0.7) !important;
+}
+body.light-theme .faq-acc-a p {
+  color: rgba(255,255,255,0.6) !important;
+}
+body.light-theme .faq-panel-footer {
+  border-color: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.4) !important;
+}
+body.light-theme .faq-no-results-msg {
+  color: rgba(255,255,255,0.4) !important;
+}
+
+/* Scrollbar in light mode → gold on dark */
+body.light-theme ::-webkit-scrollbar-track {
+  background: #0a1a2e !important;
+}
+body.light-theme ::-webkit-scrollbar-thumb {
+  background: var(--gold) !important;
+}
+
+/* Municipal blockchain section — keep same blue */
+body.light-theme #municipal {
+  background: #0a1a2e !important;
+}
+
+/* Theme toggle — sun active in light mode */
+body.light-theme .theme-icon-light {
+  background: var(--gold) !important;
+  filter: none !important;
+}
+body.light-theme .theme-icon-dark {
+  opacity: 0.35 !important;
+  background: transparent !important;
+}
+
 </style>
 
 <!-- FAB Button -->
