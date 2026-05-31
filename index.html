@@ -1944,47 +1944,47 @@
     <div class="form-wrap" id="form-invest">
 
       <!-- Funding Rounds Banner -->
-      <div style="background:rgba(200,134,10,0.07);border:1px solid rgba(201,168,76,0.25);border-radius:4px;padding:1.2rem 1.4rem;margin-bottom:1.5rem;text-align:left;">
-        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin-bottom:1rem;">TAP Funding Roadmap</div>
-        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div class="funding-banner">
+        <div class="funding-banner-title">TAP Funding Roadmap</div>
+        <div class="funding-rows">
 
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1rem;background:rgba(200,134,10,0.12);border:1px solid rgba(200,134,10,0.35);border-radius:3px;">
-            <div>
-              <div style="font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;">🟡 Pre-Seed — NOW OPEN</div>
-              <div style="font-size:0.78rem;color:var(--sand);margin-top:0.2rem;opacity:0.85;">Build MVP · Core team · First market launch</div>
+          <div class="fr-row fr-active">
+            <div class="fr-left">
+              <div class="fr-label">🟡 Pre-Seed — NOW OPEN</div>
+              <div class="fr-desc">Build MVP · Core team · First market launch</div>
             </div>
-            <div style="text-align:right;">
-              <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--gold);">$750K</div>
-              <div style="font-size:0.65rem;color:var(--dust);font-family:'Syne',sans-serif;">Target Raise</div>
+            <div class="fr-right">
+              <div class="fr-amount">$750K</div>
+              <div class="fr-sublabel">Target Raise</div>
             </div>
           </div>
 
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1rem;background:rgba(26,18,8,0.4);border:1px solid rgba(200,134,10,0.12);border-radius:3px;opacity:0.7;">
-            <div>
-              <div style="font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;color:var(--dust);letter-spacing:0.08em;text-transform:uppercase;">⚪ Series A — 2026/27</div>
-              <div style="font-size:0.78rem;color:var(--sand);margin-top:0.2rem;opacity:0.75;">Regional expansion · Franchise rollout · AI scale</div>
+          <div class="fr-row fr-inactive">
+            <div class="fr-left">
+              <div class="fr-label">⚪ Series A — 2026/27</div>
+              <div class="fr-desc">Regional expansion · Franchise rollout · AI scale</div>
             </div>
-            <div style="text-align:right;">
-              <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--dust);">$2.5M</div>
-              <div style="font-size:0.65rem;color:var(--dust);font-family:'Syne',sans-serif;">Target Raise</div>
+            <div class="fr-right">
+              <div class="fr-amount">$2.5M</div>
+              <div class="fr-sublabel">Target Raise</div>
             </div>
           </div>
 
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1rem;background:rgba(26,18,8,0.4);border:1px solid rgba(200,134,10,0.12);border-radius:3px;opacity:0.7;">
-            <div>
-              <div style="font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;color:var(--dust);letter-spacing:0.08em;text-transform:uppercase;">⚪ Series B — 2028+</div>
-              <div style="font-size:0.78rem;color:var(--sand);margin-top:0.2rem;opacity:0.75;">Continental presence · Blockchain scale · IPO prep</div>
+          <div class="fr-row fr-inactive">
+            <div class="fr-left">
+              <div class="fr-label">⚪ Series B — 2028+</div>
+              <div class="fr-desc">Continental presence · Blockchain scale · IPO prep</div>
             </div>
-            <div style="text-align:right;">
-              <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--dust);">$5M</div>
-              <div style="font-size:0.65rem;color:var(--dust);font-family:'Syne',sans-serif;">Target Raise</div>
+            <div class="fr-right">
+              <div class="fr-amount">$5M</div>
+              <div class="fr-sublabel">Target Raise</div>
             </div>
           </div>
 
         </div>
       </div>
 
-      <div class="form-group">
+            <div class="form-group">
         <input type="text" placeholder="Full Name" />
       </div>
       <div class="form-group">
@@ -3548,6 +3548,108 @@ body.light-theme .ai-desc-input { background: #f8f9fa; border-color: #e2e8f0; co
 body.light-theme .ai-desc-input::placeholder { color: #a0aec0; }
 body.light-theme .ai-desc-input:focus { border-color: #b8860b; }
 body.light-theme .ai-input-label { color: #b8860b; }
+
+
+/* ── FUNDING BANNER ── */
+.funding-banner {
+  background: rgba(200,134,10,0.07);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 6px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.5rem;
+}
+.funding-banner-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.8rem;
+}
+.funding-rows { display: flex; flex-direction: column; gap: 0.6rem; }
+.fr-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  gap: 0.5rem;
+}
+.fr-active {
+  background: rgba(200,134,10,0.14);
+  border: 1px solid rgba(200,134,10,0.4);
+}
+.fr-inactive {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.fr-left { flex: 1; }
+.fr-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin-bottom: 0.2rem;
+}
+.fr-active .fr-label { color: var(--gold); }
+.fr-desc { font-size: 0.75rem; color: var(--dust); line-height: 1.4; }
+.fr-right { text-align: right; flex-shrink: 0; }
+.fr-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1;
+}
+.fr-active .fr-amount { color: var(--gold); }
+.fr-sublabel {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--dust);
+  margin-top: 2px;
+}
+
+/* LIGHT THEME — full contrast */
+body.light-theme .funding-banner {
+  background: #f0f2f5 !important;
+  border: 1px solid #cbd5e0 !important;
+}
+body.light-theme .funding-banner-title {
+  color: #b8860b !important;
+}
+body.light-theme .fr-active {
+  background: #e8f0fe !important;
+  border: 2px solid #b8860b !important;
+}
+body.light-theme .fr-inactive {
+  background: #e2e8f0 !important;
+  border: 1px solid #b8c5d6 !important;
+}
+body.light-theme .fr-label {
+  color: #0a2540 !important;
+  font-weight: 700 !important;
+}
+body.light-theme .fr-active .fr-label {
+  color: #0a2540 !important;
+}
+body.light-theme .fr-desc {
+  color: #2d3748 !important;
+  opacity: 1 !important;
+}
+body.light-theme .fr-amount {
+  color: #0a2540 !important;
+  font-weight: 900 !important;
+}
+body.light-theme .fr-active .fr-amount {
+  color: #b8860b !important;
+}
+body.light-theme .fr-sublabel {
+  color: #4a5568 !important;
+}
 
 </style>
 
