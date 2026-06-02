@@ -3305,37 +3305,19 @@ body.light-theme .reveal.visible { opacity: 1; transform: translateY(0); }
   border-radius: 3px;
 }
 .blueprint {
-  background: #0d1e35;
+  background: #f5f0e8;
   border: 1px solid rgba(201,168,76,0.3);
   border-radius: 6px;
-  padding: 12px;
-  display: grid;
-  gap: 4px;
-  min-height: 240px;
+  padding: 10px;
+  min-height: 260px;
+  position: relative;
 }
-.blueprint-room {
-  background: rgba(232,200,74,0.07);
-  border: 1.5px solid rgba(201,168,76,0.5);
-  border-radius: 2px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  transition: background 0.2s;
-}
-.blueprint-room:hover { background: rgba(232,200,74,0.14); }
-.blueprint-room-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--gold);
-  text-align: center;
-}
-.blueprint-room-size { font-size: 9px; color: rgba(201,168,76,0.6); margin-top: 2px; text-align: center; }
-.blueprint-room-icon { font-size: 14px; margin-bottom: 3px; }
+.blueprint svg { display: block; width: 100%; height: auto; }
+/* Keep these for light-theme override references */
+.blueprint-room { display: none; }
+.blueprint-room-name { display: none; }
+.blueprint-room-size { display: none; }
+.blueprint-room-icon { display: none; }
 .blueprint-footer {
   display: flex;
   align-items: center;
@@ -3511,11 +3493,7 @@ body.light-theme .ai-result-sub { color: #718096; }
 body.light-theme .ai-tabs { background: #f8f9fa; border-color: #e2e8f0; }
 body.light-theme .ai-tab { color: #8a95a5; }
 body.light-theme .ai-tab.active { color: #b8860b; border-bottom-color: #b8860b; }
-body.light-theme .blueprint { background: #e8f0fe; border-color: #0a2540; }
-body.light-theme .blueprint-room { background: rgba(10,37,64,0.05); border-color: #0a2540; }
-body.light-theme .blueprint-room:hover { background: rgba(10,37,64,0.1); }
-body.light-theme .blueprint-room-name { color: #0a2540; }
-body.light-theme .blueprint-room-size { color: rgba(10,37,64,0.5); }
+body.light-theme .blueprint { background: #f5f0e8; border-color: #0a2540; }
 body.light-theme .blueprint-compass { color: #0a2540; background: #e8f0fe; border-color: #0a2540; }
 body.light-theme .blueprint-label { color: #b8860b; }
 body.light-theme .cost-hero { background: #f8f9fa; border-color: #e2e8f0; }
@@ -4125,7 +4103,7 @@ function parseInput(text) {
            hasGym, hasOffice, hasTheatre, location, text };
 }
 
-// ── GENERATE ROOMS ──
+// ── GENERATE ROOMS (kept for area calc / specs) ──
 function generateRooms(p) {
   const rooms = [];
   const masterSize = p.isLuxury ? `${18+p.beds}'x${16+p.beds}'` : `${14+p.beds}'x${12+p.beds}'`;
@@ -4143,6 +4121,395 @@ function generateRooms(p) {
   if (p.hasGym)     rooms.push({ icon: '🏋️', name: 'Home Gym', size: "16'x14'", span: '' });
   if (p.hasTheatre) rooms.push({ icon: '🎬', name: 'Home Theatre', size: "20'x14'", span: '' });
   return rooms;
+}
+
+// ══ SVG ARCHITECTURAL FLOOR PLAN RENDERER ══
+function renderFloorPlanSVG(p) {
+  const W = 560, H = 420;
+  const wall = 7;
+  const iwall = 4;
+  const PAD = 32;
+  const beds = p.beds;
+  const lux = p.isLuxury;
+  const hasBath2 = beds >= 3;
+  const hasStore = !lux;
+
+  // Color palette — warm architectural drawing look
+  const bg        = '#f5f0e8';
+  const wallClr   = '#1a1a1a';
+  const roomFill  = '#ede8de';
+  const bathFill  = '#dce8f0';
+  const kitFill   = '#e8ede0';
+  const verFill   = '#e0ead8';
+  const labelClr  = '#1a1a1a';
+  const dimClr    = '#888';
+  const goldClr   = '#c9a84c';
+
+  // SVG helpers
+  function rect(x,y,w,h,fill,stroke,sw,rx=0) {
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" stroke="${stroke||'none'}" stroke-width="${sw||0}" rx="${rx}"/>`;
+  }
+  function line(x1,y1,x2,y2,clr,sw,dash='') {
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${clr}" stroke-width="${sw}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;
+  }
+  function text(x,y,txt,sz,clr,weight='normal',anchor='middle') {
+    return `<text x="${x}" y="${y}" font-size="${sz}" fill="${clr}" font-weight="${weight}" text-anchor="${anchor}" font-family="'Syne',sans-serif">${txt}</text>`;
+  }
+  function door(cx,cy,r,startAngle,sweep,wallDir) {
+    // Draw a door swing arc
+    const a1 = startAngle * Math.PI/180;
+    const a2 = (startAngle+sweep) * Math.PI/180;
+    const x1=cx+r*Math.cos(a1), y1=cy+r*Math.sin(a1);
+    const x2=cx+r*Math.cos(a2), y2=cy+r*Math.sin(a2);
+    const lg = sweep>180?1:0;
+    return `<g stroke="${wallClr}" stroke-width="0.8" fill="none" opacity="0.65">
+      <line x1="${cx}" y1="${cy}" x2="${x1}" y2="${y1}"/>
+      <path d="M${x1},${y1} A${r},${r} 0 ${lg},1 ${x2},${y2}"/>
+    </g>`;
+  }
+  function window_(x,y,w,h,horiz=true) {
+    // Three parallel lines across the opening
+    if (horiz) {
+      const mid = y+h/2;
+      return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${wallClr}" stroke-width="0.6"/>
+        <line x1="${x}" y1="${mid-h*0.18}" x2="${x+w}" y2="${mid-h*0.18}" stroke="${wallClr}" stroke-width="0.7"/>
+        <line x1="${x}" y1="${mid+h*0.18}" x2="${x+w}" y2="${mid+h*0.18}" stroke="${wallClr}" stroke-width="0.7"/>`;
+    } else {
+      const mid = x+w/2;
+      return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${wallClr}" stroke-width="0.6"/>
+        <line x1="${mid-w*0.18}" y1="${y}" x2="${mid-w*0.18}" y2="${y+h}" stroke="${wallClr}" stroke-width="0.7"/>
+        <line x1="${mid+w*0.18}" y1="${y}" x2="${mid+w*0.18}" y2="${y+h}" stroke="${wallClr}" stroke-width="0.7"/>`;
+    }
+  }
+  function dimLine(x1,y1,x2,y2,label,offset=12,horiz=true) {
+    // Dimension line with ticks and label
+    const tx = (x1+x2)/2, ty = (y1+y2)/2;
+    let out = `<g stroke="${dimClr}" stroke-width="0.7" fill="${dimClr}">`;
+    if (horiz) {
+      out += `<line x1="${x1}" y1="${y1-offset}" x2="${x2}" y2="${y2-offset}"/>`;
+      out += `<line x1="${x1}" y1="${y1-offset-4}" x2="${x1}" y2="${y1-offset+4}"/>`;
+      out += `<line x1="${x2}" y1="${y2-offset-4}" x2="${x2}" y2="${y2-offset+4}"/>`;
+      out += `<text x="${tx}" y="${y1-offset-5}" font-size="7.5" fill="${dimClr}" text-anchor="middle" font-family="'DM Sans',sans-serif">${label}</text>`;
+    } else {
+      out += `<line x1="${x1-offset}" y1="${y1}" x2="${x2-offset}" y2="${y2}"/>`;
+      out += `<line x1="${x1-offset-4}" y1="${y1}" x2="${x1-offset+4}" y2="${y1}"/>`;
+      out += `<line x1="${x2-offset-4}" y1="${y2}" x2="${x2-offset+4}" y2="${y2}"/>`;
+      out += `<text x="${x1-offset-5}" y="${ty}" font-size="7.5" fill="${dimClr}" text-anchor="middle" font-family="'DM Sans',sans-serif" transform="rotate(-90,${x1-offset-5},${ty})">${label}</text>`;
+    }
+    return out + '</g>';
+  }
+  function roomLabel(x,y,name,size) {
+    return `<text x="${x}" y="${y}" font-size="9.5" fill="${labelClr}" font-weight="600" text-anchor="middle" font-family="'Syne',sans-serif" letter-spacing="0.04em">${name}</text>
+    <text x="${x}" y="${y+12}" font-size="8" fill="#666" text-anchor="middle" font-family="'DM Sans',sans-serif">${size}</text>`;
+  }
+
+  let svg = '';
+
+  // ── LAYOUT ENGINE based on bed count ──
+  // We build a layout grid representing the actual plan proportional to real floor plans
+
+  if (beds === 1) {
+    // Single room layout: Studio/1-bed ~26x17ft
+    const ox=PAD, oy=PAD, tw=W-PAD*2, th=H-PAD*2-30;
+    const kw=Math.round(tw*0.42), bw=tw-kw, bh=Math.round(th*0.52), bathH=Math.round(th*0.25), porch=Math.round(th*0.23);
+    // Outer wall
+    svg += rect(ox,oy,tw,th,bg,wallClr,wall);
+    // Interior: left = kitchen/living, right top = bedroom, right mid = bath, right bot = closet
+    // Vertical divider
+    svg += `<rect x="${ox+kw-iwall/2}" y="${oy+wall}" width="${iwall}" height="${th-wall*2}" fill="${wallClr}"/>`;
+    // Horizontal in right column
+    svg += `<rect x="${ox+kw+iwall/2}" y="${oy+bh-iwall/2}" width="${tw-kw-iwall/2-wall}" height="${iwall}" fill="${wallClr}"/>`;
+    svg += `<rect x="${ox+kw+iwall/2}" y="${oy+bh+bathH-iwall/2}" width="${tw-kw-iwall/2-wall}" height="${iwall}" fill="${wallClr}"/>`;
+    // Room fills
+    svg += rect(ox+wall,oy+wall,kw-wall-iwall/2,th-wall*2,kitFill); // kitchen/living
+    svg += rect(ox+kw+iwall/2,oy+wall,tw-kw-iwall/2-wall,bh-wall-iwall/2,'#e8ddd0'); // bedroom
+    svg += rect(ox+kw+iwall/2,oy+bh+iwall/2,tw-kw-iwall/2-wall,bathH-iwall,bathFill); // bath
+    svg += rect(ox+kw+iwall/2,oy+bh+bathH+iwall/2,tw-kw-iwall/2-wall,th-bh-bathH-wall*1.5,'#e0dbd0'); // closet
+    // Windows
+    const winW=32;
+    svg += window_(ox+kw*0.3,oy,winW,wall,true); // front window kitchen
+    svg += window_(ox+wall,oy+th*0.3,wall,28,false); // side window
+    svg += window_(ox+kw+(tw-kw)/2-winW/2,oy,winW,wall,true); // bedroom front window
+    // Doors
+    svg += door(ox+kw-iwall/2, oy+th-wall-bh*0.25, 18, 180, 90, 'h'); // kitchen door
+    svg += door(ox+kw+iwall/2, oy+bh+4, 16, 90, 90, 'v'); // bathroom door
+    // Entry on bottom
+    const entryW=30; const entryX=ox+kw*0.45;
+    svg += rect(entryX,oy+th-wall,entryW,wall+8,'#f5f0e8'); // cut opening
+    // Labels
+    svg += roomLabel(ox+wall+(kw-wall-iwall/2)/2, oy+th*0.45, 'KITCHEN / LIVING', `${Math.round(kw*0.18)}m²`);
+    svg += roomLabel(ox+kw+iwall/2+(tw-kw-iwall/2-wall)/2, oy+wall+(bh-wall)/2, 'BEDROOM', `${Math.round((bh-wall)*(tw-kw-wall)*0.009)}m²`);
+    svg += roomLabel(ox+kw+iwall/2+(tw-kw-iwall/2-wall)/2, oy+bh+iwall/2+bathH/2, 'BATHROOM', '3m²');
+    svg += roomLabel(ox+kw+iwall/2+(tw-kw-iwall/2-wall)/2, oy+bh+bathH+iwall/2+(th-bh-bathH-wall*1.5)/2, 'CLOSET', '');
+    // Porch below entry
+    svg += rect(ox+kw*0.25, oy+th, kw*0.7, 22, verFill, wallClr, 1.5);
+    svg += text(ox+kw*0.25+kw*0.35, oy+th+14, 'PORCH', 8, labelClr, '600');
+    // Dim lines
+    svg += dimLine(ox,oy,ox+tw,oy, `${lux?11:8}m`, 14, true);
+    svg += dimLine(ox,oy,ox,oy+th, `${lux?7:5.5}m`, 14, false);
+
+  } else if (beds === 2) {
+    // Classic African 2-bed like ID 12105 / Earch Designers plan
+    const ox=PAD, oy=PAD+18, tw=W-PAD*2, th=H-PAD*2-18;
+    const verH=Math.round(th*0.22);
+    const rightW=Math.round(tw*0.38);
+    const leftW=tw-rightW;
+    const livingH=Math.round((th-verH)*0.6);
+    const batH=Math.round((th-verH)*0.18);
+    const kitW=Math.round(leftW*0.48);
+    const entW=Math.round(leftW*0.25);
+    const storeW=Math.round(leftW*0.27);
+    const bedH=Math.round((th-verH)/2);
+
+    // Verandah top
+    svg += rect(ox,oy-verH,tw,verH,verFill,wallClr,wall);
+    svg += text(ox+tw/2, oy-verH/2+5, 'VERANDAH', 9, '#3a5a30','700');
+    svg += text(ox+tw/2, oy-verH/2+17, `${Math.round(tw*verH*0.00085)} m²`, 8, '#555');
+
+    // Outer wall main body
+    svg += rect(ox,oy,tw,th,bg,wallClr,wall);
+
+    // Vertical divider left/right
+    svg += `<rect x="${ox+leftW-iwall/2}" y="${oy+wall}" width="${iwall}" height="${th-wall*2}" fill="${wallClr}"/>`;
+
+    // Horizontal dividers in left zone
+    svg += `<rect x="${ox+wall}" y="${oy+livingH-iwall/2}" width="${leftW-wall-iwall/2}" height="${iwall}" fill="${wallClr}"/>`;
+
+    // Kitchen / entrance / store horizontal sub-dividers
+    svg += `<rect x="${ox+storeW+wall-iwall/2}" y="${oy+livingH+iwall/2}" width="${iwall}" height="${th-livingH-wall*2}" fill="${wallClr}"/>`;
+    svg += `<rect x="${ox+storeW+wall+entW-iwall/2}" y="${oy+livingH+iwall/2}" width="${iwall}" height="${th-livingH-wall*2}" fill="${wallClr}"/>`;
+
+    // Horizontal divider in right zone (between bedrooms)
+    svg += `<rect x="${ox+leftW+iwall/2}" y="${oy+bedH-iwall/2}" width="${rightW-wall-iwall/2}" height="${iwall}" fill="${wallClr}"/>`;
+    // Bathroom divider in right zone
+    svg += `<rect x="${ox+leftW+iwall/2+(rightW-wall)*0.6-iwall/2}" y="${oy+wall}" width="${iwall}" height="${batH+iwall}" fill="${wallClr}"/>`;
+    svg += `<rect x="${ox+leftW+iwall/2}" y="${oy+wall+batH}" width="${(rightW-wall)*0.6}" height="${iwall}" fill="${wallClr}"/>`;
+
+    // Room fills
+    svg += rect(ox+wall, oy+wall, leftW-wall-iwall/2, livingH-wall-iwall/2, roomFill);
+    svg += rect(ox+wall, oy+livingH+iwall/2, storeW-iwall/2, th-livingH-wall*2, '#ddd8cc');
+    svg += rect(ox+storeW+wall+iwall/2, oy+livingH+iwall/2, entW-iwall, th-livingH-wall*2, '#e8e4da');
+    svg += rect(ox+storeW+wall+entW+iwall/2, oy+livingH+iwall/2, leftW-storeW-entW-wall*1.5-iwall*1.5, th-livingH-wall*2, kitFill);
+    svg += rect(ox+leftW+iwall/2, oy+wall, (rightW-wall)*0.6-iwall/2, batH, bathFill);
+    svg += rect(ox+leftW+iwall/2+(rightW-wall)*0.6+iwall/2, oy+wall, rightW-wall-(rightW-wall)*0.6-iwall, batH+iwall, '#e0ddd5');
+    svg += rect(ox+leftW+iwall/2, oy+wall+batH+iwall, rightW-wall-iwall/2, bedH-batH-iwall*2, '#e8ddd0');
+    svg += rect(ox+leftW+iwall/2, oy+bedH+iwall/2, rightW-wall-iwall/2, th-bedH-wall*1.5, '#e8ddd0');
+
+    // Windows
+    const ww=30;
+    svg += window_(ox+leftW*0.25,oy,ww,wall,true);
+    svg += window_(ox+leftW*0.6,oy,ww,wall,true);
+    svg += window_(ox+leftW+rightW*0.25,oy,ww,wall,true);
+    svg += window_(ox,oy+livingH*0.35,wall,26,false);
+    svg += window_(ox+tw-wall,oy+bedH*0.45,wall,26,false);
+    svg += window_(ox+tw-wall,oy+bedH+bedH*0.45,wall,26,false);
+    svg += window_(ox+leftW+rightW*0.5,oy+th-wall,ww,wall,true);
+
+    // Doors
+    svg += door(ox+storeW+wall+iwall/2, oy+livingH+iwall/2, 16, 0, 90, 'v');
+    svg += door(ox+storeW+wall+entW+iwall/2, oy+livingH+iwall/2, 16, 0, 90, 'v');
+    svg += door(ox+leftW+iwall/2, oy+batH+wall+14, 15, 180, 90, 'h');
+    svg += door(ox+leftW+iwall/2, oy+bedH+iwall/2+14, 16, 180, 90, 'h');
+
+    // Labels
+    const lx=ox+wall+(leftW-wall-iwall/2)/2;
+    svg += roomLabel(lx, oy+livingH*0.42, 'LIVING ROOM', `${Math.round((leftW-wall)*(livingH-wall)*0.0095)} m²`);
+    svg += roomLabel(ox+wall+storeW/2, oy+livingH+iwall+(th-livingH-wall*2)/2, 'STORE', '2m²');
+    svg += roomLabel(ox+storeW+wall+iwall*1.5+entW/2, oy+livingH+iwall+(th-livingH-wall*2)/2, 'ENTRY', '');
+    svg += roomLabel(ox+storeW+wall+entW+iwall*2+(leftW-storeW-entW-wall*1.5-iwall*1.5)/2, oy+livingH+iwall+(th-livingH-wall*2)/2, 'KITCHEN', `${Math.round((leftW-storeW-entW-wall)*( th-livingH-wall)*0.009)} m²`);
+    const rx=ox+leftW+iwall+(rightW-wall)/2;
+    svg += roomLabel(ox+leftW+iwall+(rightW-wall)*0.3, oy+wall+batH/2, 'BATH', '3.4m²');
+    svg += roomLabel(ox+leftW+iwall+(rightW-wall)*0.8, oy+wall+(batH+iwall)/2, 'WRB', '');
+    svg += roomLabel(rx, oy+wall+batH+iwall+(bedH-batH-iwall*2)/2+8, 'BEDROOM 1', '10.5 m²');
+    svg += roomLabel(rx, oy+bedH+iwall/2+(th-bedH-wall*1.5)/2+8, 'BEDROOM 2', '10.5 m²');
+
+    // Dim lines
+    svg += dimLine(ox,oy,ox+tw,oy, lux?'13.5m':'10.2m', 14, true);
+    svg += dimLine(ox,oy,ox,oy+th, lux?'9m':'7.5m', 14, false);
+
+  } else if (beds === 3) {
+    // 3-bed like ID 13206 / barndominium plan
+    const ox=PAD, oy=PAD+14, tw=W-PAD*2, th=H-PAD*2-14;
+    const verW=Math.round(tw*0.28);
+    const mainW=tw-verW;
+    const livingH=Math.round(th*0.52);
+    const kitH=Math.round(th*0.28);
+    const porchH=Math.round(th*0.2);
+    const bedW=Math.round(mainW*0.42);
+    const rightW=mainW-bedW;
+    const b1H=Math.round(th*0.35);
+    const b2H=Math.round(th*0.33);
+    const masterH=th-b1H-b2H;
+
+    // Verandah left
+    svg += rect(ox,oy,verW,th,verFill,wallClr,wall);
+    svg += text(ox+verW/2, oy+th*0.45, 'VERANDAH', 9, '#3a5a30','700','middle');
+    svg += door(ox+verW-wall/2, oy+livingH*0.5, 18, 180, -90, 'v');
+    svg += window_(ox, oy+th*0.2, wall, 30, false);
+    svg += window_(ox, oy+th*0.6, wall, 30, false);
+
+    // Main body
+    svg += rect(ox+verW,oy,mainW,th,bg,wallClr,wall);
+
+    // Vertical divider (bedrooms right, public left)
+    svg += `<rect x="${ox+verW+bedW-iwall/2}" y="${oy+wall}" width="${iwall}" height="${th-wall*2}" fill="${wallClr}"/>`;
+
+    // Horizontal dividers left zone (living/kitchen/porch)
+    svg += `<rect x="${ox+verW+wall}" y="${oy+livingH-iwall/2}" width="${bedW-wall-iwall/2}" height="${iwall}" fill="${wallClr}"/>`;
+    svg += `<rect x="${ox+verW+wall}" y="${oy+livingH+kitH-iwall/2}" width="${bedW-wall-iwall/2}" height="${iwall}" fill="${wallClr}"/>`;
+
+    // Horizontal dividers right zone
+    svg += `<rect x="${ox+verW+bedW+iwall/2}" y="${oy+b1H-iwall/2}" width="${rightW-wall-iwall/2}" height="${iwall}" fill="${wallClr}"/>`;
+    svg += `<rect x="${ox+verW+bedW+iwall/2}" y="${oy+b1H+b2H-iwall/2}" width="${rightW-wall-iwall/2}" height="${iwall}" fill="${wallClr}"/>`;
+    // Bathroom sub-divider in right
+    const bathW=Math.round(rightW*0.55);
+    svg += `<rect x="${ox+verW+bedW+iwall/2+bathW-iwall/2}" y="${oy+b1H}" width="${iwall}" height="${b2H}" fill="${wallClr}"/>`;
+    svg += `<rect x="${ox+verW+bedW+iwall/2}" y="${oy+b1H+b2H*0.45-iwall/2}" width="${bathW}" height="${iwall}" fill="${wallClr}"/>`;
+
+    // Room fills
+    svg += rect(ox+verW+wall, oy+wall, bedW-wall-iwall/2, livingH-wall-iwall/2, roomFill);
+    svg += rect(ox+verW+wall, oy+livingH+iwall/2, bedW-wall-iwall/2, kitH-iwall, kitFill);
+    svg += rect(ox+verW+wall, oy+livingH+kitH+iwall/2, bedW-wall-iwall/2, th-livingH-kitH-wall*1.5, verFill);
+    svg += rect(ox+verW+bedW+iwall/2, oy+wall, rightW-wall-iwall/2, b1H-wall-iwall/2, '#e8ddd0');
+    svg += rect(ox+verW+bedW+iwall/2, oy+b1H+iwall/2, bathW-iwall/2, b2H*0.45-iwall, bathFill);
+    svg += rect(ox+verW+bedW+iwall/2, oy+b1H+b2H*0.45+iwall/2, bathW-iwall/2, b2H*0.55-iwall, '#ddd8cc');
+    svg += rect(ox+verW+bedW+iwall/2+bathW+iwall/2, oy+b1H+iwall/2, rightW-wall-bathW-iwall*2, b2H-iwall, '#e8ddd0');
+    svg += rect(ox+verW+bedW+iwall/2, oy+b1H+b2H+iwall/2, rightW-wall-iwall/2, masterH-wall*1.5, '#e0d8cc');
+
+    // Windows
+    const ww=28;
+    svg += window_(ox+verW+bedW*0.3,oy,ww,wall,true);
+    svg += window_(ox+verW+bedW*0.68,oy,ww,wall,true);
+    svg += window_(ox+verW+bedW+rightW*0.35,oy,ww,wall,true);
+    svg += window_(ox+tw-wall, oy+b1H*0.45, wall, 26, false);
+    svg += window_(ox+tw-wall, oy+b1H+b2H+masterH*0.45, wall, 28, false);
+    svg += window_(ox+verW+wall, oy+th-wall, ww, wall, true);
+
+    // Doors
+    svg += door(ox+verW+wall+bedW*0.5, oy+livingH-iwall, 17, 270, 90, 'v');
+    svg += door(ox+verW+bedW+iwall, oy+b1H*0.5, 16, 180, 90, 'h');
+    svg += door(ox+verW+bedW+iwall, oy+b1H+b2H+masterH*0.4, 18, 180, 90, 'h');
+    svg += door(ox+verW+bedW+iwall/2, oy+b1H+4, 15, 90, 90, 'v');
+    svg += door(ox+verW+bedW+iwall/2+bathW, oy+b1H+4, 14, 90, -90, 'v');
+
+    // Labels
+    svg += roomLabel(ox+verW+wall+(bedW-wall-iwall/2)/2, oy+livingH*0.45, 'LIVING ROOM', `${Math.round((bedW-wall)*(livingH-wall)*0.0095)} m²`);
+    svg += roomLabel(ox+verW+wall+(bedW-wall-iwall/2)/2, oy+livingH+iwall+(kitH-iwall)/2+5, 'KITCHEN', `${Math.round((bedW-wall)*kitH*0.0085)} m²`);
+    svg += roomLabel(ox+verW+wall+(bedW-wall-iwall/2)/2, oy+livingH+kitH+iwall+(th-livingH-kitH-wall*1.5)/2, 'PORCH / ENTRY', '');
+    const rx2=ox+verW+bedW+iwall+(rightW-wall)/2;
+    svg += roomLabel(rx2, oy+wall+(b1H-wall)/2+4, 'BEDROOM 2', `${Math.round((rightW-wall)*(b1H-wall)*0.009)} m²`);
+    svg += roomLabel(ox+verW+bedW+iwall+(bathW-iwall/2)/2, oy+b1H+iwall+(b2H*0.45-iwall)/2, 'BATH', '6m²');
+    svg += roomLabel(ox+verW+bedW+iwall+(bathW-iwall/2)/2, oy+b1H+b2H*0.45+iwall+(b2H*0.55-iwall)/2, 'STORE', '');
+    svg += roomLabel(ox+verW+bedW+iwall/2+bathW+iwall+(rightW-wall-bathW-iwall*2)/2, oy+b1H+iwall+b2H/2, 'WARDROBE', '');
+    svg += roomLabel(rx2, oy+b1H+b2H+iwall+(masterH-wall*1.5)/2+4, 'MASTER BED', `${Math.round((rightW-wall)*masterH*0.009)} m²`);
+
+    // Dim lines
+    svg += dimLine(ox+verW,oy,ox+tw,oy, lux?'14m':'11.5m', 14, true);
+    svg += dimLine(ox+verW,oy,ox+verW,oy+th, lux?'10m':'8.5m', 14, false);
+
+  } else {
+    // 4+ bed — wide plan like barndominium/3-bed extended
+    const ox=PAD, oy=PAD+14, tw=W-PAD*2, th=H-PAD*2-14;
+    const cols = beds >= 5 ? 3 : 2;
+    const rightW=Math.round(tw*(beds>=5?0.55:0.42));
+    const leftW=tw-rightW;
+    const livingH=Math.round(th*0.48);
+    const kitH=Math.round(th*0.24);
+    const porchH=th-livingH-kitH;
+    const bedH=Math.round(th/Math.max(beds-1,2));
+
+    // Outer
+    svg += rect(ox,oy,tw,th,bg,wallClr,wall);
+    // Vertical main divider
+    svg += `<rect x="${ox+leftW-iwall/2}" y="${oy+wall}" width="${iwall}" height="${th-wall*2}" fill="${wallClr}"/>`;
+    // Left zone horizontals
+    svg += `<rect x="${ox+wall}" y="${oy+livingH-iwall/2}" width="${leftW-wall*1.5}" height="${iwall}" fill="${wallClr}"/>`;
+    svg += `<rect x="${ox+wall}" y="${oy+livingH+kitH-iwall/2}" width="${leftW-wall*1.5}" height="${iwall}" fill="${wallClr}"/>`;
+
+    // Right zone bedroom dividers
+    const numRight = beds-1;
+    for (let i=1; i<numRight; i++) {
+      const yy = oy+Math.round(th*i/numRight);
+      svg += `<rect x="${ox+leftW+iwall/2}" y="${yy-iwall/2}" width="${rightW-wall-iwall/2}" height="${iwall}" fill="${wallClr}"/>`;
+    }
+    // Bathroom strip in right zone
+    const bathH2=Math.round(th/numRight*0.38);
+    svg += `<rect x="${ox+leftW+iwall/2}" y="${oy+wall+bathH2}" width="${Math.round(rightW*0.55)}" height="${iwall}" fill="${wallClr}"/>`;
+    svg += `<rect x="${ox+leftW+iwall/2+Math.round(rightW*0.55)-iwall/2}" y="${oy+wall}" width="${iwall}" height="${bathH2+iwall}" fill="${wallClr}"/>`;
+
+    // Room fills
+    svg += rect(ox+wall,oy+wall,leftW-wall*1.5,livingH-wall-iwall/2,roomFill);
+    svg += rect(ox+wall,oy+livingH+iwall/2,leftW-wall*1.5,kitH-iwall,kitFill);
+    svg += rect(ox+wall,oy+livingH+kitH+iwall/2,leftW-wall*1.5,porchH-wall*1.5,verFill);
+    svg += rect(ox+leftW+iwall/2,oy+wall,Math.round(rightW*0.55)-iwall/2,bathH2,bathFill);
+    svg += rect(ox+leftW+iwall/2+Math.round(rightW*0.55)+iwall/2,oy+wall,rightW-wall-Math.round(rightW*0.55)-iwall,bathH2+iwall,'#e0ddd5');
+
+    for (let i=0; i<numRight; i++) {
+      const yTop = oy+Math.round(th*i/numRight)+iwall/2;
+      const yBot = oy+Math.round(th*(i+1)/numRight)-iwall/2;
+      const roomH = yBot-yTop;
+      if (i>0) {
+        svg += rect(ox+leftW+iwall/2, yTop, rightW-wall-iwall/2, roomH, i===0?bathFill:'#e8ddd0');
+      } else {
+        // First slot already has bath, fill the bed part below
+        const bedTop = oy+wall+bathH2+iwall*1.5;
+        const bedBot = oy+Math.round(th/numRight)-iwall/2;
+        svg += rect(ox+leftW+iwall/2, bedTop, rightW-wall-iwall/2, bedBot-bedTop, '#e8ddd0');
+      }
+    }
+
+    // Windows
+    const ww=28;
+    for(let i=0;i<3;i++) svg += window_(ox+leftW*0.15+i*(leftW*0.28),oy,ww,wall,true);
+    for(let i=0;i<numRight;i++) svg += window_(ox+tw-wall,oy+Math.round(th*i/numRight)+Math.round(th/numRight*0.45),wall,24,false);
+    svg += window_(ox,oy+livingH*0.4,wall,28,false);
+    svg += window_(ox+leftW*0.45,oy+th-wall,ww,wall,true);
+
+    // Doors
+    svg += door(ox+leftW-iwall/2, oy+livingH+kitH*0.5, 17, 0, -90, 'v');
+    svg += door(ox+leftW+iwall, oy+Math.round(th/numRight)*0.5, 16, 180, 90, 'h');
+    for(let i=1;i<numRight;i++) svg += door(ox+leftW+iwall, oy+Math.round(th*i/numRight)+16, 16, 180, 90, 'h');
+
+    // Labels
+    svg += roomLabel(ox+wall+(leftW-wall*1.5)/2, oy+livingH*0.43, 'LIVING / LOUNGE', `${Math.round((leftW-wall*2)*livingH*0.0085)} m²`);
+    svg += roomLabel(ox+wall+(leftW-wall*1.5)/2, oy+livingH+iwall/2+kitH/2+5, 'KITCHEN', `${Math.round((leftW-wall*2)*kitH*0.009)} m²`);
+    svg += roomLabel(ox+wall+(leftW-wall*1.5)/2, oy+livingH+kitH+iwall+porchH/2, 'DINING / PORCH', '');
+    svg += roomLabel(ox+leftW+iwall+(Math.round(rightW*0.55))/2, oy+wall+bathH2/2, 'BATHROOM', `${Math.ceil(beds/1.8)} baths`);
+    svg += roomLabel(ox+leftW+iwall+Math.round(rightW*0.55)+iwall+(rightW-wall-Math.round(rightW*0.55)-iwall)/2, oy+wall+(bathH2+iwall)/2, 'WRB', '');
+    svg += roomLabel(ox+leftW+iwall+(rightW-wall-iwall)/2, oy+wall+bathH2+iwall+(Math.round(th/numRight)-bathH2-iwall*2)/2, 'MASTER BEDROOM', `${Math.round((rightW-wall)*th*0.003/numRight*11)} m²`);
+    for(let i=1;i<numRight;i++) {
+      const yMid = oy+Math.round(th*i/numRight)+iwall/2+Math.round(th/numRight)/2;
+      svg += roomLabel(ox+leftW+iwall+(rightW-wall-iwall)/2, yMid, `BEDROOM ${i+1}`, `${Math.round((rightW-wall)*th*0.0025/numRight*10)} m²`);
+    }
+
+    // Dim lines
+    svg += dimLine(ox,oy,ox+tw,oy, lux?`${12+beds}m`:`${9+beds}m`, 14, true);
+    svg += dimLine(ox,oy,ox,oy+th, lux?`${9+Math.floor(beds/2)}m`:`${7+Math.floor(beds/2)}m`, 14, false);
+  }
+
+  // ── COMPASS ROSE ──
+  const cx=W-36, cy=H-36, cr=14;
+  svg += `<circle cx="${cx}" cy="${cy}" r="${cr}" fill="white" stroke="${goldClr}" stroke-width="1.2"/>`;
+  svg += `<polygon points="${cx},${cy-cr*0.85} ${cx-4},${cy+2} ${cx+4},${cy+2}" fill="${wallClr}"/>`;
+  svg += `<polygon points="${cx},${cy+cr*0.85} ${cx-4},${cy-2} ${cx+4},${cy-2}" fill="${wallClr}" opacity="0.25"/>`;
+  svg += text(cx, cy-cr-2, 'N', 8, wallClr, '800');
+
+  // ── TITLE BLOCK ──
+  const beds_label = beds===1?'1-BEDROOM':beds===2?'2-BEDROOM':beds===3?'3-BEDROOM':`${beds}-BEDROOM`;
+  const style_label = p.isLuxury?' LUXURY':p.isBudget?' AFFORDABLE':p.isCoastal?' COASTAL':p.isModern?' MODERN':p.isTraditional?' TRADITIONAL':'';
+  svg += `<rect x="0" y="${H-18}" width="${W}" height="18" fill="${wallClr}" opacity="0.88"/>`;
+  svg += text(14, H-6, `${beds_label}${style_label} HOME  ·  ${p.location.toUpperCase()}`, 7.5, '#e8c84a', '700', 'start');
+  svg += text(W-14, H-6, 'TAP AI GENERATED  ·  FOR ILLUSTRATION ONLY', 7, '#aaa', 'normal', 'end');
+
+  // ── SCALE BAR ──
+  const sbx=PAD, sby=H-28;
+  svg += `<rect x="${sbx}" y="${sby}" width="20" height="4" fill="${goldClr}"/>`;
+  svg += `<rect x="${sbx+20}" y="${sby}" width="20" height="4" fill="${wallClr}" opacity="0.3"/>`;
+  svg += text(sbx, sby-2, '0', 7, dimClr, 'normal', 'start');
+  svg += text(sbx+20, sby-2, '5m', 7, dimClr, 'normal', 'middle');
+  svg += text(sbx+40, sby-2, '10m', 7, dimClr, 'normal', 'middle');
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" style="background:${bg};border-radius:4px;">${svg}</svg>`;
 }
 
 // ── GENERATE COST BREAKDOWN ──
@@ -4261,17 +4628,10 @@ function renderAIResults(p) {
   document.getElementById('ai-result-title').textContent = `${p.beds}-Bedroom${styleLabel?' '+styleLabel:''} Home · ${p.location}`;
   document.getElementById('ai-result-sub').textContent   = `Est. $${(costs.total*0.95).toLocaleString()} – $${(costs.total*1.05).toLocaleString()} USD · TAP AI Generated`;
 
-  // FLOOR PLAN
+  // FLOOR PLAN — SVG architectural drawing
   const blueprintEl = document.getElementById('blueprint-grid');
-  const colCount = Math.min(rooms.length, p.beds <= 2 ? 2 : p.beds <= 4 ? 3 : 4);
-  blueprintEl.style.gridTemplateColumns = `repeat(${colCount}, 1fr)`;
-
-  blueprintEl.innerHTML = rooms.map(r => `
-    <div class="blueprint-room${r.span === 'wide' ? '" style="grid-column:span '+Math.min(2,colCount)+';' : '"'}>
-      <div class="blueprint-room-icon">${r.icon}</div>
-      <div class="blueprint-room-name">${r.name}</div>
-      <div class="blueprint-room-size">${r.size}</div>
-    </div>`).join('');
+  blueprintEl.innerHTML = renderFloorPlanSVG(p);
+  blueprintEl.style.gridTemplateColumns = '';  // reset old grid
 
   const styleNotes = [];
   if (p.isModern) styleNotes.push('Flat roof · Open plan');
